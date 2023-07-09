@@ -1,0 +1,6 @@
+[flake8]
+ignore =
+  # The default 80 characters per line is too short, so we'll ignore this.
+  E501,
+  # Line break before binary operator may be deprecated by PEP8 standards
+  W503
