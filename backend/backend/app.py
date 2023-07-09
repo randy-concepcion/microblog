@@ -8,6 +8,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///twitter.db"
 
 # Database
 db = SQLAlchemy(app)
+
+
 class Users(db.Model):
     # primary_key makes it so that this value is unique and can be used to identify this record
     id = db.Column("student_id", db.Integer, primary_key=True)
@@ -21,10 +23,12 @@ class Users(db.Model):
         self.pwd = pwd
 
 
-@app.route('/')
+@app.route("/")
 def index():
     return "Hello, world!"
 
 
 if __name__ == "__main__":
-    app.run(debug=True) # debug=True restarts the server everytime we make a change in our code
+    app.run(
+        debug=True
+    )  # debug=True restarts the server everytime we make a change in our code
