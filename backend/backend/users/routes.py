@@ -1,32 +1,13 @@
+from backend import db
 from flask import (
-    Flask,
-    request,
     jsonify,
+    request,
 )
-from flask_sqlalchemy import SQLAlchemy
+from . import users_blueprint
+from ..models import Users
 
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///twitter.db"
-
-
-# Database
-db = SQLAlchemy(app)
-
-
-class Users(db.Model):
-    id = db.Column("student_id", db.Integer, primary_key=True)
-    username = db.Column(db.String(24))
-    email = db.Column(db.String(64))
-    pwd = db.Column(db.String(64))
-
-    def __init__(self, username, email, pwd):
-        self.username = username
-        self.email = email
-        self.pwd = pwd
-
-
-@app.route("/api/users", methods=["GET", "POST", "DELETE"])
+@users_blueprint.route("/api/users", methods=["GET", "POST", "DELETE"])
 def users():
     method = request.method
 
@@ -86,9 +67,3 @@ def users():
 
         except Exception:
             return jsonify({"error": "m"})
-
-
-if __name__ == "__main__":
-    app.run(
-        debug=True
-    )  # debug=True restarts the server everytime we make a change in our code
