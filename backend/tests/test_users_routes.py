@@ -17,3 +17,15 @@ class TestUsersEndpoint:
         assert result_user["username"] == "bobloblaw"
         assert result_user["email"] == "bob.loblaw@lawblog.com"
         assert result_user["password"] == "12345"
+
+    def test_post_method_bad_data_exception(self):
+        post_data = {"unexpected": "data"}
+
+        response = self.test_client.post(
+            self.endpoint,
+            content_type="application/json",
+            data=post_data,
+        )
+
+        assert response.status_code == 400
+        assert b"Invalid form" in response.data
