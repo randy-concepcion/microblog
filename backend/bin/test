@@ -1,3 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 
-pytest -v --cov=. --cov-branch --cov-report html tests/
+# By default, we will generate the XML report file, but we can pass in an argument value 'html'
+# for this script to generate the HTML report locally
+HTML_FLAG=$1 echo 'Running bin/test'
+
+echo "Running pytest in '$(pwd).'"
+
+if [ ${HTML_FLAG} = "html" ]
+then
+    echo "...HTML report generating"
+    pytest -v --cov=. --cov-branch --cov-report html ./tests
+else
+    echo "...XML report generating for SonarCloud"
+    pytest -v --cov=. --cov-branch --cov-report=xml:coverage/coverage.xml ./tests
+fi
+
+echo "--- unit test run complete"
