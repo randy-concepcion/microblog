@@ -9,6 +9,7 @@ from ..models import Users
 
 @users_blueprint.route("/api/users", methods=["GET", "POST", "DELETE"])
 def users():
+    json_mimetype = {"Content-Type": "application/json"}
     method = request.method
 
     if method.lower() == "get":
@@ -28,7 +29,7 @@ def users():
                 ]
             ),
             200,
-            {"Content-Type": "application/json"},
+            json_mimetype,
         )
 
     elif method.lower() == "post":
@@ -43,13 +44,13 @@ def users():
                     db.session.add(user)
                     db.session.commit()
 
-                    return jsonify({"success": True})
+                    return (jsonify({"success": True}), 200, json_mimetype)
 
                 except Exception as e:
-                    return {"error": e}
+                    return (jsonify({"error": e}), 400, json_mimetype)
 
         except Exception:
-            return jsonify({"error": "Invalid form"})
+            return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
 
     elif method.lower() == "delete":
         try:
@@ -64,10 +65,10 @@ def users():
                     return jsonify({"success": True})
 
                 except Exception as e:
-                    return jsonify({"error": e})
+                    return (jsonify({"error": e}), 400, json_mimetype)
 
             else:
-                return jsonify({"error": "Invalid form"})
+                return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
 
-        except Exception:
-            return jsonify({"error": "m"})
+        except Exception as e:
+            return (jsonify({"error": e}), 400, json_mimetype)
