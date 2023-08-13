@@ -15,16 +15,20 @@ def users():
         users = Users.query.all()
 
         # Get all values from database
-        return jsonify(
-            [
-                {
-                    "id": user.id,
-                    "username": user.username,
-                    "email": user.email,
-                    "password": user.pwd,
-                }
-                for user in users
-            ]
+        return (
+            jsonify(
+                [
+                    {
+                        "id": user.id,
+                        "username": user.username,
+                        "email": user.email,
+                        "password": user.pwd,
+                    }
+                    for user in users
+                ]
+            ),
+            200,
+            {"Content-Type": "application/json"},
         )
 
     elif method.lower() == "post":
