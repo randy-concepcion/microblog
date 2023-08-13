@@ -1,0 +1,12 @@
+version: '3'
+services:
+  sonar-scanner-cloud:
+    image: sonarsource/sonarcloud-scan
+    working_dir: /app
+    entrypoint: bin/sonar
+    environment:
+      - SONAR_TOKEN
+    volumes:
+      - ./backend/coverage:/app/backend/coverage
+      - ./:/app
+
