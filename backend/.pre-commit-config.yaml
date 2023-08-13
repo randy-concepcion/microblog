@@ -31,3 +31,8 @@ repos:
       - pytest-cov
       - pytest-mock
     language: python
+  - id: sonar
+    name: sonar-scanner
+    stages: [push]
+    entry: bash -c "docker-compose run --no-TTY sonar-scanner-cloud"
+    language: system
