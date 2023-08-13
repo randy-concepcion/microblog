@@ -8,6 +8,17 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  unit-test:
+    name: pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: pytest unit test run
+        run: |
+          bash -c backend/bin/test
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
