@@ -39,18 +39,14 @@ def users():
             pwd = request.json["pwd"]
 
             if username and pwd and email:
-                try:
-                    user = Users(username, email, pwd)
-                    db.session.add(user)
-                    db.session.commit()
+                user = Users(username, email, pwd)
+                db.session.add(user)
+                db.session.commit()
 
-                    return (jsonify({"success": True}), 200, json_mimetype)
+                return (jsonify({"success": True}), 200, json_mimetype)
 
-                except Exception as e:
-                    return (jsonify({"error": e}), 400, json_mimetype)
-
-        except Exception:
-            return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
+        except Exception as err:
+            return (jsonify({"error": repr(err)}), 400, json_mimetype)
 
     elif method.lower() == "delete":
         try:
@@ -64,11 +60,11 @@ def users():
 
                     return jsonify({"success": True})
 
-                except Exception as e:
-                    return (jsonify({"error": e}), 400, json_mimetype)
+                except Exception as err:
+                    return (jsonify({"error": repr(err)}), 400, json_mimetype)
 
             else:
                 return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
 
-        except Exception as e:
-            return (jsonify({"error": e}), 400, json_mimetype)
+        except Exception as err:
+            return (jsonify({"error": repr(err)}), 400, json_mimetype)

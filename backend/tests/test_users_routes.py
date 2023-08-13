@@ -1,14 +1,16 @@
 import pytest
+from sqlalchemy.exc import SQLAlchemyError
 
 
 class TestUsersEndpoint:
     @pytest.fixture(autouse=True)
-    def __inject_fixtures(self, test_client, init_database):
+    def __inject_fixtures(self, mocker, test_client, init_database):
         self.endpoint = "/api/users"
+        self.mocker = mocker
         self.test_client = test_client
         self.init_db = init_database
 
-    def test_get_method(self):
+    def test_get_success(self):
         response = self.test_client.get(self.endpoint)
         result_user = response.json[0]
 
@@ -18,14 +20,33 @@ class TestUsersEndpoint:
         assert result_user["email"] == "bob.loblaw@lawblog.com"
         assert result_user["password"] == "12345"
 
-    def test_post_method_bad_data_exception(self):
-        post_data = {"unexpected": "data"}
+    def test_post_bad_data_exception(self):
+        post_json = {"unexpected": "data"}
 
         response = self.test_client.post(
             self.endpoint,
             content_type="application/json",
-            data=post_data,
+            json=post_json,
         )
 
         assert response.status_code == 400
-        assert b"Invalid form" in response.data
+        assert b"error" in response.data
+
+    def test_post_null_values_returns_exception(self):
+        post_json = {
+            "username": "bobloblaw",
+            "email": "bob.loblaw@lawblog.com",
+            "pwd": "12345",
+        }
+
+        mock_db = self.mocker.patch("backend.db.session.commit")
+        mock_db.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
+
+        response = self.test_client.post(
+            self.endpoint,
+            content_type="application/json",
+            json=post_json,
+        )
+
+        assert response.status_code == 400
+        assert b"error" in response.data
