@@ -6,7 +6,7 @@ HTML_FLAG=$1 echo 'Running bin/test'
 
 echo "Running pytest in '$(pwd).'"
 
-if [ ${HTML_FLAG} = "html" ]
+if [[ ${HTML_FLAG} == "html" ]]
 then
     echo "...HTML report generating"
     pytest -v --cov=. --cov-branch --cov-report html ./tests
