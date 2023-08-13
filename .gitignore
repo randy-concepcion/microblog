@@ -1,5 +1,6 @@
 **/__pycache__/**
 **/.scannerwork/**
+**/.pytest_cache/**
 **/.python-version
 **/htmlcov/**
 **/coverage/**
