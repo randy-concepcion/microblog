@@ -17,3 +17,17 @@ repos:
   hooks:
   - id: flake8
     stages: [commit]
+
+- repo: local
+  hooks:
+  - id: unit-tests
+    name: Unit tests
+    stages: [push]
+    entry: bash -c "cd backend && bin/test"
+    additional_dependencies:
+      - Flask
+      - flask-sqlalchemy
+      - pytest
+      - pytest-cov
+      - pytest-mock
+    language: python
