@@ -45,7 +45,7 @@ def users():
                     return {"error": e}
 
         except Exception:
-            jsonify({"error": "Invalid form"})
+            return jsonify({"error": "Invalid form"})
 
     elif method.lower() == "delete":
         try:
