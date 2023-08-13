@@ -19,12 +19,8 @@ def init_database(test_client):
     default_user = Users(
         username="bobloblaw", email="bob.loblaw@lawblog.com", pwd="12345"
     )
-    second_user = Users(
-        username="michaelscott", email="michael.scott@dundermiffline.com", pwd="paper"
-    )
 
     db.session.add(default_user)
-    db.session.add(second_user)
 
     db.session.commit()
 
