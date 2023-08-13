@@ -1,5 +1,6 @@
 **/__pycache__/**
 **/.python-version
 **/htmlcov/**
+**/coverage/**
 **/*.db
 **/.coverage
