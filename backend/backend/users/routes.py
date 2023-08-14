@@ -56,7 +56,7 @@ def users():
             uid = request.json["id"]
 
             if uid:
-                user = Users.session.get(uid)
+                user = db.session.get(Users, uid)
                 db.session.delete(user)
                 db.session.commit()
 
@@ -67,3 +67,6 @@ def users():
 
         except Exception as err:
             return (jsonify({"error": repr(err)}), 400, json_mimetype)
+
+    else:
+        return (jsonify({"error": "Internal server error"}), 500, json_mimetype)

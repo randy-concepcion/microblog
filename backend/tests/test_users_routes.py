@@ -124,3 +124,15 @@ class TestUsersEndpointDelete:
 
         assert response.status_code == 400
         assert b"Invalid form" in response.data
+
+    def test_valid_user_id_returns_success(self):
+        post_json = {"id": "1"}
+
+        response = self.test_client.delete(
+            self.endpoint,
+            content_type="application/json",
+            json=post_json,
+        )
+
+        assert response.status_code == 200
+        assert b"success" in response.data
