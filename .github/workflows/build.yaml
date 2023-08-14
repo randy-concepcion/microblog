@@ -34,13 +34,27 @@ jobs:
         run: |
           bash -c "cd backend && poetry run bin/test"
 
+      - name: Upload pytest test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-coverage-report
+          path: backend/coverage/coverage.xml
+
   sonarcloud:
     name: SonarCloud
+    needs: unit-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Download pytest test report
+        uses: actions/download-artifact@v3
+        with:
+          name: test-coverage-report
+          path: backend/coverage/coverage.xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
