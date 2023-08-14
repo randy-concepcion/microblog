@@ -67,6 +67,3 @@ def users():
 
         except Exception as err:
             return (jsonify({"error": repr(err)}), 400, json_mimetype)
-
-    else:
-        return (jsonify({"error": "Internal server error"}), 500, json_mimetype)
