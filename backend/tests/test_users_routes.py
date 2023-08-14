@@ -4,9 +4,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 class TestUsersEndpointGet:
     @pytest.fixture(autouse=True)
-    def __inject_fixtures(self, mocker, test_client, init_database):
+    def __inject_fixtures(self, test_client, init_database):
         self.endpoint = "/api/users"
-        self.mocker = mocker
         self.test_client = test_client
         self.init_db = init_database
 
@@ -95,9 +94,8 @@ class TestUsersEndpointPost:
 
 class TestUsersEndpointDelete:
     @pytest.fixture(autouse=True)
-    def __inject_fixtures(self, mocker, test_client, init_database):
+    def __inject_fixtures(self, test_client, init_database):
         self.endpoint = "/api/users"
-        self.mocker = mocker
         self.test_client = test_client
         self.init_db = init_database
 
