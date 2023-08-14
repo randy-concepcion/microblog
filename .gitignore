@@ -1,8 +1,14 @@
-**/__pycache__/**
-**/.scannerwork/**
-**/.pytest_cache/**
+# Python
+__pycache__
+.pytest_cache
+coverage
+htmlcov
 **/.python-version
-**/htmlcov/**
-**/coverage/**
 **/*.db
 **/.coverage
+
+# SonarCloud
+.scannerwork
+
+# Node
+node_modules
