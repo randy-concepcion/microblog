@@ -28,11 +28,14 @@ jobs:
 
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: bash -c "cd backend && poetry install --no-interaction --no-root"
+        run: |
+          cd backend
+          poetry install --no-interaction --no-root
 
       - name: Run pytest unit tests
         run: |
-          bash -c "cd backend && poetry run bin/test"
+          cd backend
+          poetry run bin/test
 
       - name: Upload pytest test report
         uses: actions/upload-artifact@v3
