@@ -56,7 +56,7 @@ def users():
             uid = request.json["id"]
 
             if uid:
-                user = Users.query.get(uid)
+                user = db.session.get(Users, uid)
                 db.session.delete(user)
                 db.session.commit()
 
