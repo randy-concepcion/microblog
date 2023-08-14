@@ -1,0 +1,66 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  unit-test:
+    name: pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Update environment
+        run: |
+          sudo add-apt-repository ppa:deadsnakes/ppa
+          sudo apt-get update -y
+          sudo apt-get install python3.11
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: bash -c "cd backend && poetry install --no-interaction --no-root"
+
+      - name: Run pytest unit tests
+        run: |
+          bash -c "cd backend && poetry run bin/test"
+
+      - name: Upload pytest test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-coverage-report
+          path: backend/coverage/coverage.xml
+
+  sonarcloud:
+    name: SonarCloud
+    needs: unit-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Download pytest test report
+        uses: actions/download-artifact@v3
+        with:
+          name: test-coverage-report
+          path: backend/coverage/
+
+      - name: Normalize source path in test report
+        run: |
+          sed -i "s/<source>.*\/app/<source>\/github\/workspace/g" backend/coverage/coverage.xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
