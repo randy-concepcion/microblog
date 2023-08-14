@@ -53,7 +53,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test-coverage-report
-          path: backend/coverage/coverage.xml
+          path: backend/coverage/
+
+      - name: Normalize source path in test report
+        run: |
+          sed -i "s/<source>.*\/app/<source>\/github\/workspace/g" backend/coverage/coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
