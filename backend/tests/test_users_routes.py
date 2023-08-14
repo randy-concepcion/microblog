@@ -91,3 +91,24 @@ class TestUsersEndpointPost:
 
         assert response.status_code == 200
         assert b"success" in response.data
+
+
+class TestUsersEndpointDelete:
+    @pytest.fixture(autouse=True)
+    def __inject_fixtures(self, mocker, test_client, init_database):
+        self.endpoint = "/api/users"
+        self.mocker = mocker
+        self.test_client = test_client
+        self.init_db = init_database
+
+    def test_bad_data_exception(self):
+        post_json = {"unexpected": "data"}
+
+        response = self.test_client.delete(
+            self.endpoint,
+            content_type="application/json",
+            json=post_json,
+        )
+
+        assert response.status_code == 400
+        assert b"error" in response.data
