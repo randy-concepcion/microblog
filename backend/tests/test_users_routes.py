@@ -2,7 +2,7 @@ import pytest
 from sqlalchemy.exc import SQLAlchemyError
 
 
-class TestUsersEndpoint:
+class TestUsersEndpointGet:
     @pytest.fixture(autouse=True)
     def __inject_fixtures(self, mocker, test_client, init_database):
         self.endpoint = "/api/users"
@@ -10,7 +10,7 @@ class TestUsersEndpoint:
         self.test_client = test_client
         self.init_db = init_database
 
-    def test_get_success(self):
+    def test_success(self):
         response = self.test_client.get(self.endpoint)
         result_user = response.json[0]
 
@@ -20,7 +20,16 @@ class TestUsersEndpoint:
         assert result_user["email"] == "bob.loblaw@lawblog.com"
         assert result_user["password"] == "12345"
 
-    def test_post_bad_data_exception(self):
+
+class TestUsersEndpointPost:
+    @pytest.fixture(autouse=True)
+    def __inject_fixtures(self, mocker, test_client, init_database):
+        self.endpoint = "/api/users"
+        self.mocker = mocker
+        self.test_client = test_client
+        self.init_db = init_database
+
+    def test_bad_data_exception(self):
         post_json = {"unexpected": "data"}
 
         response = self.test_client.post(
@@ -51,7 +60,7 @@ class TestUsersEndpoint:
         assert response.status_code == 400
         assert b"error" in response.data
 
-    def test_post_null_values_returns_exception(self):
+    def test_null_values_returns_exception(self):
         post_json = {
             "username": "bobloblaw",
             "email": None,
@@ -67,7 +76,7 @@ class TestUsersEndpoint:
         assert response.status_code == 400
         assert b"Invalid form" in response.data
 
-    def test_post_valid_user_data_returns_success(self):
+    def test_valid_user_data_returns_success(self):
         post_json = {
             "username": "bobloblaw",
             "email": "bob.loblaw@lawblog.com",
