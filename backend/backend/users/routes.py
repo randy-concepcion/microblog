@@ -53,15 +53,11 @@ def users():
             uid = request.json["id"]
 
             if uid:
-                try:
-                    user = Users.query.get(uid)
-                    db.session.delete(user)
-                    db.session.commit()
+                user = Users.query.get(uid)
+                db.session.delete(user)
+                db.session.commit()
 
-                    return jsonify({"success": True})
-
-                except Exception as err:
-                    return (jsonify({"error": repr(err)}), 400, json_mimetype)
+                return jsonify({"success": True})
 
             else:
                 return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
