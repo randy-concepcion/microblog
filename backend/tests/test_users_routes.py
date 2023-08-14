@@ -134,3 +134,20 @@ class TestUsersEndpointDelete:
 
         assert response.status_code == 200
         assert b"success" in response.data
+
+
+class TestUsersEndpointUnhandledMethods:
+    @pytest.fixture(autouse=True)
+    def __inject_fixtures(self, test_client, init_database):
+        self.endpoint = "/api/users"
+        self.test_client = test_client
+
+    def test_returns_internal_server_error(self):
+        # Since the server code doesn't handle
+        # the PUT method, we will test how we handle it
+        response = self.test_client.put(
+            self.endpoint, content_type="application/json", json={"foo": "bar"}
+        )
+
+        assert response.status_code == 405
+        assert b"Method Not Allowed" in response.data
