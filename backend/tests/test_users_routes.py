@@ -112,13 +112,16 @@ class TestUsersEndpointPost:
 
 class TestUsersEndpointDelete:
     @pytest.fixture(autouse=True)
-    def __inject_fixtures(self, test_client, init_database):
+    def __inject_fixtures(self, mocker, test_client, init_database):
         self.endpoint = "/api/users"
+        self.mocker = mocker
         self.test_client = test_client
         self.init_db = init_database
 
     def test_bad_data_exception(self):
         post_json = {"unexpected": "data"}
+
+        mock_remove_user = self.mocker.patch("backend.users.routes.remove_user")
 
         response = self.test_client.delete(
             self.endpoint,
@@ -128,6 +131,7 @@ class TestUsersEndpointDelete:
 
         assert response.status_code == 400
         assert b"error" in response.data
+        mock_remove_user.assert_not_called()
 
     def test_no_user_id_exists_returns_invalid_form_response(self):
         post_json = {"id": None}
