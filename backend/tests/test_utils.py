@@ -2,6 +2,7 @@ import pytest
 from backend.users.utils import (
     add_user,
     get_users,
+    remove_user,
 )
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -27,6 +28,16 @@ class TestAddUser:
         self.mocker = mocker
         self.init_db = init_database
 
+    def test_valid_data_returns_true(self):
+        result = add_user("test_username", "test@email.com", "test_pwd")
+
+        assert result is True
+
+    def test_bad_data_returns_false(self):
+        result = add_user("test_username", None, None)
+
+        assert result is False
+
     def test_db_session_add_user_raises_exception(self):
         mock_db = self.mocker.patch("backend.db.session.commit")
         mock_db.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
@@ -34,12 +45,27 @@ class TestAddUser:
         with pytest.raises(SQLAlchemyError):
             add_user("test_username", "test_email", "test_pwd")
 
-    def test_bad_data_returns_false(self):
-        result = add_user("test_username", None, None)
+
+class TestRemoveUser:
+    @pytest.fixture(autouse=True)
+    def __init_fixtures(self, mocker, init_database):
+        self.mocker = mocker
+        self.init_db = init_database
+
+    def test_valid_uid_returns_true(self):
+        self.mocker.resetall()
+        result = remove_user("1")
+
+        assert result is True
+
+    def test_no_uid_returns_false(self):
+        result = remove_user(None)
 
         assert result is False
 
-    def test_valid_data_returns_true(self):
-        result = add_user("test_username", "test@email.com", "test_pwd")
+    def test_db_session_add_user_raises_exception(self):
+        mock_db = self.mocker.patch("backend.db.session.commit")
+        mock_db.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
 
-        assert result is True
+        with pytest.raises(SQLAlchemyError):
+            remove_user("1")
