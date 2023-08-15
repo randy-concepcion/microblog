@@ -36,5 +36,5 @@ def login():
         else:
             return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
 
-    except Exception:
-        return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
+    except Exception as err:
+        return (jsonify({"error": repr(err)}), 400, json_mimetype)
