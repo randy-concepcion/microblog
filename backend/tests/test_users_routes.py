@@ -153,6 +153,10 @@ class TestUsersEndpointDelete:
     def test_valid_user_id_returns_success(self):
         post_json = {"id": "1"}
 
+        mock_remove_user = self.mocker.patch(
+            "backend.users.routes.remove_user", return_value=True
+        )
+
         response = self.test_client.delete(
             self.endpoint,
             content_type="application/json",
@@ -161,6 +165,7 @@ class TestUsersEndpointDelete:
 
         assert response.status_code == 200
         assert b"success" in response.data
+        mock_remove_user.assert_called_once_with(post_json["id"])
 
 
 class TestUsersEndpointUnhandledMethods:
