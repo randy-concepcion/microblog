@@ -32,6 +32,8 @@ class TestUsersEndpointPost:
     def test_bad_data_exception(self):
         post_json = {"unexpected": "data"}
 
+        mock_add_user = self.mocker.patch("backend.users.routes.add_user")
+
         response = self.test_client.post(
             self.endpoint,
             content_type="application/json",
@@ -40,6 +42,7 @@ class TestUsersEndpointPost:
 
         assert response.status_code == 400
         assert b"error" in response.data
+        mock_add_user.assert_not_called()
 
     def test_db_session_add_user_returns_invalid_form_response(self):
         post_json = {
