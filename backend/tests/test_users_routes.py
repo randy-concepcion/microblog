@@ -136,6 +136,10 @@ class TestUsersEndpointDelete:
     def test_no_user_id_exists_returns_invalid_form_response(self):
         post_json = {"id": None}
 
+        mock_remove_user = self.mocker.patch(
+            "backend.users.routes.remove_user", return_value=False
+        )
+
         response = self.test_client.delete(
             self.endpoint,
             content_type="application/json",
@@ -144,6 +148,7 @@ class TestUsersEndpointDelete:
 
         assert response.status_code == 400
         assert b"Invalid form" in response.data
+        mock_remove_user.assert_called_once_with(None)
 
     def test_valid_user_id_returns_success(self):
         post_json = {"id": "1"}
