@@ -3,7 +3,7 @@ from flask import (
     request,
 )
 from . import users_blueprint
-from .utils import (
+from backend.utils import (
     get_users,
     add_user,
     remove_user,

@@ -1,5 +1,5 @@
 import pytest
-from backend.users.utils import (
+from backend.utils import (
     add_user,
     get_users,
     remove_user,

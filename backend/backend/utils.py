@@ -1,5 +1,5 @@
 from backend import db
-from ..models import Users
+from backend.models import Users
 
 
 def get_users() -> list[dict]:
