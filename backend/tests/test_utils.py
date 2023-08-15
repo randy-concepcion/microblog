@@ -33,3 +33,8 @@ class TestAddUser:
 
         with pytest.raises(SQLAlchemyError):
             add_user("test_username", "test_email", "test_pwd")
+
+    def test_bad_data_returns_false(self):
+        result = add_user("test_username", None, None)
+
+        assert result is False
