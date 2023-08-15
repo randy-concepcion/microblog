@@ -23,11 +23,10 @@ class TestUsersEndpointGet:
 
 class TestUsersEndpointPost:
     @pytest.fixture(autouse=True)
-    def __inject_fixtures(self, mocker, test_client, init_database):
+    def __inject_fixtures(self, mocker, test_client):
         self.endpoint = "/api/users"
         self.mocker = mocker
         self.test_client = test_client
-        self.init_db = init_database
 
     def test_bad_data_exception(self):
         post_json = {"unexpected": "data"}
