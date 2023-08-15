@@ -1,10 +1,13 @@
-from backend import db
 from flask import (
     jsonify,
     request,
 )
 from . import users_blueprint
-from ..models import Users
+from .utils import (
+    get_users,
+    add_user,
+    remove_user,
+)
 
 
 @users_blueprint.route("/api/users", methods=["GET", "POST", "DELETE"])
@@ -13,24 +16,8 @@ def users():
     method = request.method
 
     if method.lower() == "get":
-        users = Users.query.all()
-
-        # Get all values from database
-        return (
-            jsonify(
-                [
-                    {
-                        "id": user.id,
-                        "username": user.username,
-                        "email": user.email,
-                        "password": user.pwd,
-                    }
-                    for user in users
-                ]
-            ),
-            200,
-            json_mimetype,
-        )
+        result = get_users()
+        return (jsonify(result), 200, json_mimetype)
 
     elif method.lower() == "post":
         try:
@@ -38,11 +25,9 @@ def users():
             email = request.json["email"]
             pwd = request.json["pwd"]
 
-            if username and pwd and email:
-                user = Users(username, email, pwd)
-                db.session.add(user)
-                db.session.commit()
+            success = add_user(username, email, pwd)
 
+            if success:
                 return (jsonify({"success": True}), 200, json_mimetype)
 
             else:
@@ -55,11 +40,9 @@ def users():
         try:
             uid = request.json["id"]
 
-            if uid:
-                user = db.session.get(Users, uid)
-                db.session.delete(user)
-                db.session.commit()
+            success = remove_user(uid)
 
+            if success:
                 return jsonify({"success": True})
 
             else:
