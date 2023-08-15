@@ -1,4 +1,5 @@
 import pytest
+from sqlalchemy.exc import SQLAlchemyError
 
 
 class TestUsersEndpointGet:
@@ -51,6 +52,7 @@ class TestUsersEndpointPost:
         }
 
         mock_add_user = self.mocker.patch("backend.users.routes.add_user")
+        mock_add_user.side_effect = SQLAlchemyError
 
         response = self.test_client.post(
             self.endpoint,
@@ -92,6 +94,10 @@ class TestUsersEndpointPost:
             "pwd": "12345",
         }
 
+        mock_add_user = self.mocker.patch(
+            "backend.users.routes.add_user", return_value=True
+        )
+
         response = self.test_client.post(
             self.endpoint,
             content_type="application/json",
@@ -100,6 +106,9 @@ class TestUsersEndpointPost:
 
         assert response.status_code == 200
         assert b"success" in response.data
+        mock_add_user.assert_called_once_with(
+            post_json["username"], post_json["email"], post_json["pwd"]
+        )
 
 
 class TestUsersEndpointDelete:
