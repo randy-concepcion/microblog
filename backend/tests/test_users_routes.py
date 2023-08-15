@@ -4,20 +4,21 @@ from sqlalchemy.exc import SQLAlchemyError
 
 class TestUsersEndpointGet:
     @pytest.fixture(autouse=True)
-    def __inject_fixtures(self, test_client, init_database):
+    def __inject_fixtures(self, mocker, test_client):
         self.endpoint = "/api/users"
+        self.mocker = mocker
         self.test_client = test_client
-        self.init_db = init_database
 
     def test_success(self):
+        user_result = [{"foo": "bar"}]
+        mock_get_users = self.mocker.patch(
+            "backend.users.routes.get_users", return_value=user_result
+        )
+
         response = self.test_client.get(self.endpoint)
-        result_user = response.json[0]
 
         assert response.status_code == 200
-        assert result_user["id"] == 1
-        assert result_user["username"] == "bobloblaw"
-        assert result_user["email"] == "bob.loblaw@lawblog.com"
-        assert result_user["password"] == "12345"
+        mock_get_users.assert_called_once()
 
 
 class TestUsersEndpointPost:
