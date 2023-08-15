@@ -1,5 +1,4 @@
 import pytest
-from sqlalchemy.exc import SQLAlchemyError
 
 
 class TestUsersEndpointGet:
@@ -52,7 +51,6 @@ class TestUsersEndpointPost:
         }
 
         mock_add_user = self.mocker.patch("backend.users.routes.add_user")
-        mock_add_user.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
 
         response = self.test_client.post(
             self.endpoint,
@@ -66,12 +64,16 @@ class TestUsersEndpointPost:
             post_json["username"], post_json["email"], post_json["pwd"]
         )
 
-    def test_null_values_returns_exception(self):
+    def test_add_user_unsuccessful_returns_invalid_form_response(self):
         post_json = {
             "username": "bobloblaw",
             "email": None,
             "pwd": None,
         }
+
+        mock_add_user = self.mocker.patch(
+            "backend.users.routes.add_user", return_value=False
+        )
 
         response = self.test_client.post(
             self.endpoint,
@@ -81,6 +83,7 @@ class TestUsersEndpointPost:
 
         assert response.status_code == 400
         assert b"Invalid form" in response.data
+        mock_add_user.assert_called_once_with(post_json["username"], None, None)
 
     def test_valid_user_data_returns_success(self):
         post_json = {
