@@ -38,3 +38,8 @@ class TestAddUser:
         result = add_user("test_username", None, None)
 
         assert result is False
+
+    def test_valid_data_returns_true(self):
+        result = add_user("test_username", "test@email.com", "test_pwd")
+
+        assert result is True
