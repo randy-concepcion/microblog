@@ -43,3 +43,28 @@ class TestRegisterEndpointPost:
         assert response.status_code == 400
         assert b"error" in response.data
         mock_add_user.assert_not_called()
+
+    def test_user_fail_email_validation_returns_error(self):
+        post_json = {
+            "email": "badformat_emailaddress.com",
+            "pwd": "12345",
+            "username": "badboi",
+        }
+
+        users_list = [
+            {"email": "candy@candy.com"},
+            {"email": "bar@bar.com"},
+        ]
+
+        self.mocker.patch("backend.register.routes.get_users", return_value=users_list)
+        mock_add_user = self.mocker.patch("backend.register.routes.add_user")
+
+        response = self.test_client.post(
+            self.endpoint,
+            content_type="application/json",
+            json=post_json,
+        )
+
+        assert response.status_code == 400
+        assert b"error" in response.data
+        mock_add_user.assert_not_called()
