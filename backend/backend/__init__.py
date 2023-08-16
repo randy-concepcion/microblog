@@ -24,7 +24,9 @@ def create_app():
 
 def register_blueprints(app):
     from backend.login import login_blueprint
+    from backend.register import register_blueprint
     from backend.users import users_blueprint
 
     app.register_blueprint(login_blueprint)
+    app.register_blueprint(register_blueprint)
     app.register_blueprint(users_blueprint)
