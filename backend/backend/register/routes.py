@@ -23,11 +23,11 @@ def register():
         users = get_users()
 
         if len(list(filter(lambda x: x["email"] == email, users))) == 1:
-            return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
+            return (jsonify({"error": "error registering user"}), 400, json_mimetype)
 
         # Email validation check
         if not re.match(r"[\w\._]{5,}@\w{3,}.\w{2,4}", email):
-            return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
+            return (jsonify({"error": "error registering user"}), 400, json_mimetype)
 
         add_user(username, email, password)
 
