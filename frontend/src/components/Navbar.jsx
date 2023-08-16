@@ -8,10 +8,10 @@ function Navbar() {
                 Quickr
             </a>
             <div style={{ float: "right" }}>
-                <a className="w3-bar-item w3-button" href="/">
+                <a className="w3-bar-item w3-button" href="/login"> // Updated
                     Login
                 </a>
-                <a className="w3-bar-item w3-button" href="/">
+                <a className="w3-bar-item w3-button" href="/register"> // Updated
                     Register
                 </a>
             </div>
