@@ -26,7 +26,10 @@ def register():
             return (jsonify({"error": "error registering user"}), 400, json_mimetype)
 
         # Email validation check
-        if not re.match(r"[\w\._]{5,}@\w{3,}.\w{2,4}", email):
+        regex = re.compile(
+            r"([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+"
+        )
+        if not re.fullmatch(regex, email):
             return (jsonify({"error": "error registering user"}), 400, json_mimetype)
 
         add_user(username, email, password)
