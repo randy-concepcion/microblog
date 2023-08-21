@@ -1,6 +1,9 @@
 const config = {
     collectCoverage: true,
-    collectCoverageFrom: ['./src/**'],
+    collectCoverageFrom: [
+      './src/**',
+    '!./src/index.js'
+    ],
     passWithNoTests: true,
     testEnvironment: 'jsdom',
     transform: {
