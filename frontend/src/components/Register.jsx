@@ -1,10 +1,10 @@
 // src/components/Register.jsx
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
 class Register extends Component {
-    render() {
-        return (
-            <div className="w3-card-4" style={{ margin: "2rem" }}>
+  render () {
+    return (
+            <div className="w3-card-4" style={{ margin: '2rem' }}>
                 <div className="w3-container w3-blue w3-center w3-xlarge">
                     REGISTER
                 </div>
@@ -14,7 +14,7 @@ class Register extends Component {
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"
-                                class="w3-input w3-border"
+                                className="w3-input w3-border"
                                 id="email"
                             />
                         </p>
@@ -22,7 +22,7 @@ class Register extends Component {
                             <label htmlFor="username">Username</label>
                             <input
                                 type="username"
-                                class="w3-input w3-border"
+                                className="w3-input w3-border"
                                 id="text"
                             />
                         </p>
@@ -30,20 +30,20 @@ class Register extends Component {
                             <label htmlFor="password">Password</label>
                             <input
                                 type="password"
-                                class="w3-input w3-border"
+                                className="w3-input w3-border"
                                 id="password"
                             />
                         </p>
                         <p>
-                            <button type="submit" class="w3-button w3-blue">
+                            <button type="submit" className="w3-button w3-blue">
                                 Register
                             </button>
                         </p>
                     </form>
                 </div>
             </div>
-        );
-    }
+    )
+  }
 }
 
-export default Register;
+export default Register
