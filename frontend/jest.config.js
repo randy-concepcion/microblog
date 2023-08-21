@@ -1,6 +1,7 @@
 const config = {
     collectCoverage: true,
     collectCoverageFrom: ["./src/**"],
+    passWithNoTests: true,
     verbose: true
 }
 
