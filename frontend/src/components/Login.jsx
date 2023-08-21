@@ -1,5 +1,5 @@
 // src/components/Login.jsx
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 class Login extends Component {
   render () {

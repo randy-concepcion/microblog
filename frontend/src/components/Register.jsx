@@ -1,5 +1,5 @@
 // src/components/Register.jsx
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 class Register extends Component {
   render () {

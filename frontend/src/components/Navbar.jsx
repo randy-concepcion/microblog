@@ -1,9 +1,8 @@
 // src/components/Navbar.jsx
-import React from 'react'
 
 function Navbar () {
   return (
-        <div className="w3-bar w3-black">
+        <div className="w3-bar w3-black" data-testid="test-navbar">
             <a className="w3-bar-item w3-button" href="/">
                 Quickr
             </a>
