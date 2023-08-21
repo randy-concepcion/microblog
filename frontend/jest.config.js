@@ -1,7 +1,10 @@
 const config = {
     collectCoverage: true,
-    collectCoverageFrom: ["./src/**"],
+    collectCoverageFrom: ['./src/**'],
     passWithNoTests: true,
+    transform: {
+      '^.+\\.(js|jsx)$': 'babel-jest',
+    },
     verbose: true
 }
 
