@@ -1,5 +1,10 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 . "$(dirname -- "$0")/_/husky.sh"
 
+# Run pre-push git hook for frontend
 cd frontend/
 npm run test
+
+# Run pre-push git hook for backend
+cd ..
+.git/hooks/pre-push
