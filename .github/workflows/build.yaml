@@ -8,7 +8,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  unit-test:
+  backend-pytest-tests:
     name: pytest
     runs-on: ubuntu-latest
     steps:
@@ -40,12 +40,40 @@ jobs:
       - name: Upload pytest test report
         uses: actions/upload-artifact@v3
         with:
-          name: test-coverage-report
+          name: pytest-coverage-report
           path: backend/coverage/coverage.xml
+
+  frontend-jest-tests:
+    name: jest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '19.5.0'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run jest unit tests
+        run: |
+          cd frontend
+          npm run test
+
+      - name: Upload jest test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jest-coverage-report
+          path: frontend/coverage/lcov.info
 
   sonarcloud:
     name: SonarCloud
-    needs: unit-test
+    needs: [backend-pytest-tests, frontend-jest-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -55,12 +83,22 @@ jobs:
       - name: Download pytest test report
         uses: actions/download-artifact@v3
         with:
-          name: test-coverage-report
+          name: pytest-coverage-report
           path: backend/coverage/
 
-      - name: Normalize source path in test report
+      - name: Normalize source path in pytest test report
         run: |
           sed -i "s/<source>.*\/app/<source>\/github\/workspace/g" backend/coverage/coverage.xml
+
+      - name: Download jest test report
+        uses: actions/download-artifact@v3
+        with:
+          name: jest-coverage-report
+          path: frontend/coverage/
+
+      - name: Normalize source path in pytest test report
+        run: |
+          sed -i "s/SF:src/SF:\/github\/workspace\/frontend\/src/g" frontend/coverage/lcov.info
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master

@@ -1,16 +1,16 @@
 // src/components/Home.jsx
-import React from "react";
+import React from 'react'
 
-function Home() {
-    return (
+function Home () {
+  return (
         <React.Fragment>
             <div
                 className="w3-container w3-center w3-blue"
-                style={{ padding: "2rem" }}>
+                style={{ padding: '2rem' }}>
                 <h1 className="w3-jumbo">Quickr - Quick Twitter</h1>
                 <button
                     className="w3-button w3-pink"
-                    style={{ marginRight: "1rem" }}>
+                    style={{ marginRight: '1rem' }}>
                     Login
                 </button>
                 <button className="w3-button w3-pink">Register</button>
@@ -18,7 +18,7 @@ function Home() {
 
             <div
                 className="w3-container w3-blue"
-                style={{ padding: "2rem", marginTop: "2rem" }}>
+                style={{ padding: '2rem', marginTop: '2rem' }}>
                 <h2>Lorem ipsum dolor sit amet</h2>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -32,7 +32,7 @@ function Home() {
 
             <div
                 className="w3-container w3-blue"
-                style={{ padding: "2rem", marginTop: "2rem" }}>
+                style={{ padding: '2rem', marginTop: '2rem' }}>
                 <h2>Lorem ipsum dolor sit amet</h2>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -46,7 +46,7 @@ function Home() {
 
             <div
                 className="w3-container w3-blue"
-                style={{ padding: "2rem", marginTop: "2rem" }}>
+                style={{ padding: '2rem', marginTop: '2rem' }}>
                 <h2>Lorem ipsum dolor sit amet</h2>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -58,7 +58,7 @@ function Home() {
                 </p>
             </div>
         </React.Fragment>
-    );
+  )
 }
 
-export default Home;
+export default Home
