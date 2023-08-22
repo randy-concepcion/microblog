@@ -98,7 +98,7 @@ jobs:
 
       - name: Normalize source path in pytest test report
         run: |
-          sed -i "s/SF:src/SF:\/github\/workspace\/src/g" frontend/coverage/lcov.info
+          sed -i "s/SF:src/SF:\/github\/workspace\/frontend\/src/g" frontend/coverage/lcov.info
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
