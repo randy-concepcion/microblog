@@ -1,5 +1,10 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 . "$(dirname -- "$0")/_/husky.sh"
 
+# Run pre-commit git hook for frontend
 cd frontend/
 npm run lint
+
+# Run pre-commit git hook for backend
+cd ..
+.git/hooks/pre-commit
