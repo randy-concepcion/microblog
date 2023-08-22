@@ -10,14 +10,16 @@ function Home () {
                 <h1 className="w3-jumbo">Quickr - Quick Twitter</h1>
                 <button
                     className="w3-button w3-pink"
+                    data-testid="test-login-button"
                     style={{ marginRight: '1rem' }}>
                     Login
                 </button>
-                <button className="w3-button w3-pink">Register</button>
+                <button className="w3-button w3-pink" data-testid="test-register-button">Register</button>
             </div>
 
             <div
                 className="w3-container w3-blue"
+                data-testid="test-post"
                 style={{ padding: '2rem', marginTop: '2rem' }}>
                 <h2>Lorem ipsum dolor sit amet</h2>
                 <p>
