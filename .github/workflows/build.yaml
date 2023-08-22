@@ -40,7 +40,7 @@ jobs:
       - name: Upload pytest test report
         uses: actions/upload-artifact@v3
         with:
-          name: test-coverage-report
+          name: pytest-coverage-report
           path: backend/coverage/coverage.xml
 
   frontend-jest-tests:
@@ -68,7 +68,7 @@ jobs:
       - name: Upload jest test report
         uses: actions/upload-artifact@v3
         with:
-          name: test-coverage-report
+          name: jest-coverage-report
           path: frontend/coverage/lcov.info
 
   sonarcloud:
