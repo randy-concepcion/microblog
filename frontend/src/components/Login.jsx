@@ -15,7 +15,7 @@ class Login extends Component {
                             <input
                                 type="email"
                                 className="w3-input w3-border"
-                                id="email"
+                                data-testid="test-email"
                             />
                         </p>
                         <p>
@@ -23,11 +23,11 @@ class Login extends Component {
                             <input
                                 type="password"
                                 className="w3-input w3-border"
-                                id="password"
+                                data-testid="test-password"
                             />
                         </p>
                         <p>
-                            <button type="submit" className="w3-button w3-blue">
+                            <button type="submit" className="w3-button w3-blue" data-testid="test-submit-button">
                                 Login
                             </button>
                         </p>
