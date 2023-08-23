@@ -1,7 +1,19 @@
 // src/components/Login.jsx
 import { Component } from 'react'
+import axios from 'axios'
 
 class Login extends Component {
+  login = (e) => {
+    e.preventDefault()
+    axios.post('http://localhost:5000/api/login', {
+      email: document.getElementById('email').value,
+      pwd: document.getElementById('password').value
+    })
+      .then((res) => {
+        console.log(res.data)
+      })
+  }
+
   render () {
     return (
             <div className="w3-card-4" style={{ margin: '2rem' }}>
