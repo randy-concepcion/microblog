@@ -1,7 +1,20 @@
 // src/components/Register.jsx
 import { Component } from 'react'
+import axios from 'axios'
 
 class Register extends Component {
+  register = (e) => {
+    e.preventDefault()
+    axios.post('http://localhost:5000/api/register', {
+      email: document.getElementById('email').value,
+      username: document.getElementById('username').value,
+      pwd: document.getElementById('password').value
+    })
+      .then((res) => {
+        console.log(res.data)
+      })
+  }
+
   render () {
     return (
             <div className="w3-card-4" style={{ margin: '2rem' }}>
