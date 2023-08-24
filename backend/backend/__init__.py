@@ -1,9 +1,12 @@
+import os
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy import create_engine
 
 
+cors = CORS()
 csrf = CSRFProtect()
 db = SQLAlchemy()
 
@@ -12,11 +15,12 @@ def create_app():
     app = Flask(__name__)
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///twitter.db"
+    app.config["SECRET_KEY"] = os.environ.get("CSRF_SECRET_KEY")
     create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
+
     db.init_app(app)
-
+    cors.init_app(app)
     csrf.init_app(app)
-
     register_blueprints(app)
 
     return app
