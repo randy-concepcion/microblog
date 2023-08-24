@@ -22,7 +22,7 @@ class Register extends Component {
                     REGISTER
                 </div>
                 <div className="w3-container">
-                    <form>
+                    <form onSubmit={this.register}>
                         <p>
                             <label htmlFor="email">Email</label>
                             <input

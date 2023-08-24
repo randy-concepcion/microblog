@@ -21,7 +21,7 @@ class Login extends Component {
                     LOGIN
                 </div>
                 <div className="w3-container">
-                    <form>
+                    <form onSubmit={this.login}>
                         <p>
                             <label htmlFor="email">Email</label>
                             <input
