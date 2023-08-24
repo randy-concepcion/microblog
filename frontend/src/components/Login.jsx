@@ -25,6 +25,7 @@ class Login extends Component {
                         <p>
                             <label htmlFor="email">Email</label>
                             <input
+                                id="email"
                                 type="email"
                                 className="w3-input w3-border"
                                 data-testid="test-email"
@@ -33,6 +34,7 @@ class Login extends Component {
                         <p>
                             <label htmlFor="password">Password</label>
                             <input
+                                id="password"
                                 type="password"
                                 className="w3-input w3-border"
                                 data-testid="test-password"

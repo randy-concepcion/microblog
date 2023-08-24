@@ -26,6 +26,7 @@ class Register extends Component {
                         <p>
                             <label htmlFor="email">Email</label>
                             <input
+                                id="email"
                                 type="email"
                                 className="w3-input w3-border"
                                 data-testid="test-email"
@@ -34,6 +35,7 @@ class Register extends Component {
                         <p>
                             <label htmlFor="username">Username</label>
                             <input
+                                id="username"
                                 type="username"
                                 className="w3-input w3-border"
                                 data-testid="test-username"
@@ -42,6 +44,7 @@ class Register extends Component {
                         <p>
                             <label htmlFor="password">Password</label>
                             <input
+                                id="password"
                                 type="password"
                                 className="w3-input w3-border"
                                 data-testid="test-password"
