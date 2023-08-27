@@ -22,7 +22,7 @@ def login():
                     len(
                         list(
                             filter(
-                                lambda x: x["email"] == email and x["pwd"] == password,
+                                lambda x: x["email"] == email and x["password"] == password,
                                 users,
                             )
                         )
