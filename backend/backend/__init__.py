@@ -31,6 +31,13 @@ def register_blueprints(app):
     from backend.register import register_blueprint
     from backend.users import users_blueprint
 
+    # TODO: Add CSRF protection for routes
+    # For now, we will exempt the routes for CSRF protection
+    # and implement it later
+    csrf.exempt(login_blueprint)
+    csrf.exempt(register_blueprint)
+    csrf.exempt(users_blueprint)
+
     app.register_blueprint(login_blueprint)
     app.register_blueprint(register_blueprint)
     app.register_blueprint(users_blueprint)
