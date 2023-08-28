@@ -1,17 +1,27 @@
 // src/components/Register.jsx
 import { Component } from 'react'
 import axios from 'axios'
+import Alert from './Alert'
 
 class Register extends Component {
+  state = { err: '' }
+
   register = (e) => {
     e.preventDefault()
-    axios.post('http://localhost:5000/api/register', {
-      email: document.getElementById('email').value,
-      username: document.getElementById('username').value,
-      pwd: document.getElementById('password').value
-    })
+
+    axios
+      .post('http://localhost:5000/api/register', {
+        email: document.getElementById('email').value,
+        username: document.getElementById('username').value,
+        pwd: document.getElementById('password').value
+      })
       .then((res) => {
-        console.log(res.data)
+        console.log('success', res)
+        this.setState({ register: true })
+      })
+      .catch((error) => {
+        console.error('error', error.response.data.error)
+        this.setState({ err: error.response.data.error })
       })
   }
 
@@ -22,6 +32,11 @@ class Register extends Component {
                     REGISTER
                 </div>
                 <div className="w3-container">
+                    { this.state.err.length > 0 && (
+                      <Alert
+                        message={`Check your form and try again! (${this.state.err})`}
+                      />
+                    )}
                     <form onSubmit={this.register}>
                         <p>
                             <label htmlFor="email">Email</label>
@@ -54,6 +69,7 @@ class Register extends Component {
                             <button type="submit" className="w3-button w3-blue" data-testid="test-submit-button">
                                 Register
                             </button>
+                            {this.state.register && <p>You&apos;re registered!</p>}
                         </p>
                     </form>
                 </div>
