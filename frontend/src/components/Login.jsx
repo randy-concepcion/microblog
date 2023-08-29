@@ -1,16 +1,25 @@
 // src/components/Login.jsx
 import { Component } from 'react'
 import axios from 'axios'
+import Alert from './Alert'
 
 class Login extends Component {
+  state = { err: '' }
+
   login = (e) => {
     e.preventDefault()
-    axios.post('http://localhost:5000/api/login', {
-      email: document.getElementById('email').value,
-      pwd: document.getElementById('password').value
-    })
+    axios
+      .post('http://localhost:5000/api/login', {
+        email: document.getElementById('email').value,
+        pwd: document.getElementById('password').value
+      })
       .then((res) => {
-        console.log(res.data)
+        console.log('success', res)
+        this.setState({ login: true })
+      })
+      .catch((error) => {
+        console.error('error', error.response.data.error)
+        this.setState({ err: error.response.data.error })
       })
   }
 
@@ -21,6 +30,11 @@ class Login extends Component {
                     LOGIN
                 </div>
                 <div className="w3-container">
+                    {this.state.err.length > 0 && (
+                      <Alert
+                        message={`Check your form and try again! (${this.state.err})`}
+                      />
+                    )}
                     <form onSubmit={this.login}>
                         <p>
                             <label htmlFor="email">Email</label>
@@ -44,6 +58,7 @@ class Login extends Component {
                             <button type="submit" className="w3-button w3-blue" data-testid="test-submit-button">
                                 Login
                             </button>
+                            {this.state.register && <p>You&apos;re logged in!</p>}
                         </p>
                     </form>
                 </div>
