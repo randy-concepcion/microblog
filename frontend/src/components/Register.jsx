@@ -65,14 +65,14 @@ class Register extends Component {
                                 data-testid="test-password"
                             />
                         </p>
-                        <p>
+                        <div style={{ marginBottom: '1rem' }}>
                             <button type="submit" className="w3-button w3-blue" data-testid="test-submit-button">
                                 Register
                             </button>
                             <div data-testid="test-success-msg">
                               {this.state.register && 'You\'re registered!'}
                             </div>
-                        </p>
+                        </div>
                     </form>
                 </div>
             </div>

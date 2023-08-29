@@ -54,4 +54,27 @@ describe('User interacts with Register component', () => {
       }
     )
   })
+
+  test('User registers with no credentials', async () => {
+    const mockAxios = jest.spyOn(axios, 'post')
+    mockAxios.mockRejectedValueOnce({
+      response: {
+        data: {
+          error: 'Check your form and try again!'
+        }
+      }
+    })
+
+    render(<Register />)
+    const submit = screen.getByTestId('test-submit-button')
+
+    await userEvent.click(submit)
+
+    expect(screen.getByTestId('test-alert-msg')).toBeInTheDocument()
+    expect(mockAxios).toHaveBeenCalledTimes(1)
+    expect(mockAxios).toHaveBeenCalledWith(
+      'http://localhost:5000/api/register',
+      { email: '', pwd: '', username: '' }
+    )
+  })
 })
