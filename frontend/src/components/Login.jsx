@@ -18,7 +18,7 @@ class Login extends Component {
         this.setState({ login: true })
       })
       .catch((error) => {
-        console.error('error', error.response.data.error)
+        console.log('error', error.response.data.error)
         this.setState({ err: error.response.data.error })
       })
   }

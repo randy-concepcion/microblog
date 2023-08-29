@@ -12,36 +12,65 @@ import Login from '../Login'
 //       - https://kentcdodds.com/blog/stop-mocking-fetch#then-i-discovered-msw
 //       - https://stackoverflow.com/questions/67101502/how-to-mock-axios-with-jest
 
-test('Login should render Login form component correctly', async () => {
-  render(<Login />)
-
-  expect(await screen.getByTestId('test-email')).toBeInTheDocument()
-  expect(await screen.getByTestId('test-password')).toBeInTheDocument()
-  expect(await screen.getByTestId('test-submit-button')).toBeInTheDocument()
-})
-
-test('User logs in with valid credentials', async () => {
-  const mockAxios = jest.spyOn(axios, 'post')
-  mockAxios.mockResolvedValueOnce({
-    ok: true,
-    json: async () => ({ success: true })
+describe('User interacts with Login component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
   })
 
-  render(<Login />)
-  const email = screen.getByTestId('test-email')
-  const password = screen.getByTestId('test-password')
-  const submit = screen.getByTestId('test-submit-button')
+  test('Login should render Login form component correctly', async () => {
+    render(<Login />)
 
-  await userEvent.type(email, 'test@test.com')
-  await userEvent.type(password, 'test')
-  await userEvent.click(submit)
+    expect(await screen.getByTestId('test-email')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-password')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-submit-button')).toBeInTheDocument()
+  })
 
-  expect(mockAxios).toHaveBeenCalledTimes(1)
-  expect(mockAxios).toHaveBeenCalledWith(
-    'http://localhost:5000/api/login',
-    {
-      email: 'test@test.com',
-      pwd: 'test'
-    }
-  )
+  test('User logs in with valid credentials', async () => {
+    const mockAxios = jest.spyOn(axios, 'post')
+    mockAxios.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ success: true })
+    })
+
+    render(<Login />)
+    const email = screen.getByTestId('test-email')
+    const password = screen.getByTestId('test-password')
+    const submit = screen.getByTestId('test-submit-button')
+
+    await userEvent.type(email, 'test@test.com')
+    await userEvent.type(password, 'test')
+    await userEvent.click(submit)
+
+    expect(mockAxios).toHaveBeenCalledTimes(1)
+    expect(mockAxios).toHaveBeenCalledWith(
+      'http://localhost:5000/api/login',
+      {
+        email: 'test@test.com',
+        pwd: 'test'
+      }
+    )
+  })
+
+  test('User logs in with no credentials', async () => {
+    const mockAxios = jest.spyOn(axios, 'post')
+    mockAxios.mockRejectedValueOnce({
+      response: {
+        data: {
+          error: 'Invalid form'
+        }
+      }
+    })
+
+    render(<Login />)
+    const submit = screen.getByTestId('test-submit-button')
+
+    await userEvent.click(submit)
+
+    expect(screen.getByTestId('test-alert-msg')).toBeInTheDocument()
+    expect(mockAxios).toHaveBeenCalledTimes(1)
+    expect(mockAxios).toHaveBeenCalledWith(
+      'http://localhost:5000/api/login',
+      { email: '', pwd: '' }
+    )
+  })
 })
