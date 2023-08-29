@@ -20,7 +20,7 @@ class Register extends Component {
         this.setState({ register: true })
       })
       .catch((error) => {
-        console.error('error', error.response.data.error)
+        console.log('error', error.response.data.error)
         this.setState({ err: error.response.data.error })
       })
   }
@@ -69,7 +69,9 @@ class Register extends Component {
                             <button type="submit" className="w3-button w3-blue" data-testid="test-submit-button">
                                 Register
                             </button>
-                            {this.state.register && <p>You&apos;re registered!</p>}
+                            <div data-testid="test-success-msg">
+                              {this.state.register && 'You\'re registered!'}
+                            </div>
                         </p>
                     </form>
                 </div>
