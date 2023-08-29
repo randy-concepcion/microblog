@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Register from './Register'
+import Login from '../Login'
 
-test('Register form should render Register form component correctly', async () => {
-  render(<Register />)
+test('Login should render Login form component correctly', async () => {
+  render(<Login />)
 
   expect(await screen.getByTestId('test-email')).toBeInTheDocument()
-  expect(await screen.getByTestId('test-username')).toBeInTheDocument()
   expect(await screen.getByTestId('test-password')).toBeInTheDocument()
   expect(await screen.getByTestId('test-submit-button')).toBeInTheDocument()
 })
