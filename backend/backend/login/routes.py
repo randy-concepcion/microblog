@@ -22,7 +22,7 @@ def login():
                     len(
                         list(
                             filter(
-                                lambda x: x["email"] == email and x["pwd"] == password,
+                                lambda x: x["email"] == email and x["password"] == password,
                                 users,
                             )
                         )
@@ -36,4 +36,4 @@ def login():
             return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
 
     except Exception as err:
-        return (jsonify({"error": repr(err)}), 400, json_mimetype)
+        return (jsonify({"error": str(err)}), 400, json_mimetype)

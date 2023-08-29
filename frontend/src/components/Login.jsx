@@ -1,7 +1,28 @@
 // src/components/Login.jsx
 import { Component } from 'react'
+import axios from 'axios'
+import Alert from './Alert'
 
 class Login extends Component {
+  state = { err: '' }
+
+  login = (e) => {
+    e.preventDefault()
+    axios
+      .post('http://localhost:5000/api/login', {
+        email: document.getElementById('email').value,
+        pwd: document.getElementById('password').value
+      })
+      .then((res) => {
+        console.log('success', res)
+        this.setState({ login: true })
+      })
+      .catch((error) => {
+        console.log('error', error.response.data.error)
+        this.setState({ err: error.response.data.error })
+      })
+  }
+
   render () {
     return (
             <div className="w3-card-4" style={{ margin: '2rem' }}>
@@ -9,10 +30,16 @@ class Login extends Component {
                     LOGIN
                 </div>
                 <div className="w3-container">
-                    <form>
+                    {this.state.err.length > 0 && (
+                      <Alert
+                        message={`Check your form and try again! (${this.state.err})`}
+                      />
+                    )}
+                    <form onSubmit={this.login}>
                         <p>
                             <label htmlFor="email">Email</label>
                             <input
+                                id="email"
                                 type="email"
                                 className="w3-input w3-border"
                                 data-testid="test-email"
@@ -21,16 +48,20 @@ class Login extends Component {
                         <p>
                             <label htmlFor="password">Password</label>
                             <input
+                                id="password"
                                 type="password"
                                 className="w3-input w3-border"
                                 data-testid="test-password"
                             />
                         </p>
-                        <p>
+                        <div style={{ marginBottom: '1rem' }}>
                             <button type="submit" className="w3-button w3-blue" data-testid="test-submit-button">
                                 Login
                             </button>
-                        </p>
+                            <div data-testid="test-success-msg">
+                              {this.state.register && 'You\'re logged in!'}
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

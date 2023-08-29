@@ -35,4 +35,4 @@ def register():
         return (jsonify({"success": True}), 200, json_mimetype)
 
     except Exception as err:
-        return (jsonify({"error": repr(err)}), 400, json_mimetype)
+        return (jsonify({"error": str(err)}), 400, json_mimetype)
