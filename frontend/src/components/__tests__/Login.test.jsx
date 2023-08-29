@@ -28,8 +28,7 @@ describe('User interacts with Login component', () => {
   test('User logs in with valid credentials', async () => {
     const mockAxios = jest.spyOn(axios, 'post')
     mockAxios.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: true })
+      success: 'You\'re logged in!'
     })
 
     render(<Login />)
@@ -41,6 +40,7 @@ describe('User interacts with Login component', () => {
     await userEvent.type(password, 'test')
     await userEvent.click(submit)
 
+    expect(screen.getByTestId('test-success-msg')).toBeInTheDocument()
     expect(mockAxios).toHaveBeenCalledTimes(1)
     expect(mockAxios).toHaveBeenCalledWith(
       'http://localhost:5000/api/login',

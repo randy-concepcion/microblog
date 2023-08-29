@@ -54,12 +54,14 @@ class Login extends Component {
                                 data-testid="test-password"
                             />
                         </p>
-                        <p>
+                        <div style={{ marginBottom: '1rem' }}>
                             <button type="submit" className="w3-button w3-blue" data-testid="test-submit-button">
                                 Login
                             </button>
-                            {this.state.register && <p>You&apos;re logged in!</p>}
-                        </p>
+                            <div data-testid="test-success-msg">
+                              {this.state.register && 'You\'re logged in!'}
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
