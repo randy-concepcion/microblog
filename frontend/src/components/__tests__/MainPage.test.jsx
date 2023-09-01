@@ -6,4 +6,5 @@ test('MainPage should render MainPage fragment component correctly', async () =>
   render(<MainPage />)
 
   expect(await screen.getByTestId('test-main-posts')).toBeInTheDocument()
+  expect(await screen.getByTestId('test-posts-list')).toBeInTheDocument()
 })
