@@ -1,5 +1,36 @@
 from backend import db
-from backend.models import User
+from backend.models import (
+    Post,
+    User,
+)
+
+
+# ----- Post utility functions ----- #
+def get_posts() -> list[dict]:
+    posts = Post.query.all()
+
+    return [
+        {
+            "id": post.id,
+            "title": post.title,
+            "content": post.content,
+            "user": get_user(post.uid),
+        }
+        for post in posts
+    ]
+
+
+# ----- User utility functions ------ #
+def get_user(uid) -> dict:
+    users = User.query.all()
+    user = list(filter(lambda x: x.id == uid, users))[0]
+
+    return {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "password": user.pwd,
+    }
 
 
 def get_users() -> list[dict]:

@@ -1,6 +1,9 @@
 import pytest  # noqa F401
 from backend import create_app, db
-from backend.models import User
+from backend.models import (
+    Post,
+    User,
+)
 
 
 @pytest.fixture(scope="module")
@@ -22,7 +25,12 @@ def init_database(test_client):
         username="bobloblaw", email="bob.loblaw@lawblog.com", pwd="12345"
     )
 
+    default_post = Post(
+        uid="1", title="Bob's Big Post", content="Bob's law blog post is big"
+    )
+
     db.session.add(default_user)
+    db.session.add(default_post)
 
     db.session.commit()
 
