@@ -2,6 +2,7 @@ import pytest
 from backend.utils import (
     add_user,
     get_posts,
+    get_user,
     get_users,
     remove_user,
 )
@@ -37,6 +38,27 @@ class TestGetPosts:
         assert result[0]["title"] == expected[0]["title"]
         assert result[0]["content"] == expected[0]["content"]
         assert result[0]["user"]["id"] == expected[0]["user"]
+
+
+class TestGetUser:
+    @pytest.fixture(autouse=True)
+    def __init_fixtures(self, init_database):
+        self.init_db = init_database
+
+    def test_returns_valid_user(self):
+        expected = {
+            "id": 1,
+            "username": "bobloblaw",
+            "email": "bob.loblaw@lawblog.com",
+            "password": "12345",
+        }
+
+        result = get_user(1)
+
+        assert result["id"] == expected["id"]
+        assert result["username"] == expected["username"]
+        assert result["email"] == expected["email"]
+        assert result["password"] == expected["password"]
 
 
 class TestGetUsers:
