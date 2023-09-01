@@ -1,7 +1,7 @@
 from backend import db
 
 
-class Users(db.Model):
+class User(db.Model):
     id = db.Column("student_id", db.Integer, primary_key=True)
     username = db.Column(db.String(24))
     email = db.Column(db.String(64))

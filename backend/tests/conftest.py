@@ -1,6 +1,6 @@
 import pytest  # noqa F401
 from backend import create_app, db
-from backend.models import Users
+from backend.models import User
 
 
 @pytest.fixture(scope="module")
@@ -18,7 +18,7 @@ def test_client():
 def init_database(test_client):
     db.create_all()
 
-    default_user = Users(
+    default_user = User(
         username="bobloblaw", email="bob.loblaw@lawblog.com", pwd="12345"
     )
 

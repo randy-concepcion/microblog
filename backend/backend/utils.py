@@ -1,9 +1,9 @@
 from backend import db
-from backend.models import Users
+from backend.models import User
 
 
 def get_users() -> list[dict]:
-    users = Users.query.all()
+    users = User.query.all()
 
     return [
         {
@@ -19,7 +19,7 @@ def get_users() -> list[dict]:
 def add_user(username: str, email: str, pwd: str) -> bool:
     if username and pwd and email:
         try:
-            user = Users(username, email, pwd)
+            user = User(username, email, pwd)
             db.session.add(user)
             db.session.commit()
 
@@ -35,7 +35,7 @@ def add_user(username: str, email: str, pwd: str) -> bool:
 def remove_user(uid: str) -> bool:
     if uid:
         try:
-            user = db.session.get(Users, uid)
+            user = db.session.get(User, uid)
             db.session.delete(user)
             db.session.commit()
 
