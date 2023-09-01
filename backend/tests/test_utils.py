@@ -2,6 +2,7 @@ import pytest
 from backend.utils import (
     add_user,
     get_posts,
+    get_user_posts,
     get_user,
     get_users,
     remove_user,
@@ -38,6 +39,51 @@ class TestGetPosts:
         assert result[0]["title"] == expected[0]["title"]
         assert result[0]["content"] == expected[0]["content"]
         assert result[0]["user"]["id"] == expected[0]["user"]
+
+
+class TestGetUserPosts:
+    @pytest.fixture(autouse=True)
+    def __inject_fixtures(self, mocker, init_database):
+        self.init_db = init_database
+        self.mocker = mocker
+
+    def test_user_found_returns_posts_dict(self):
+        mock_user_value = {
+            "id": 1,
+            "username": "bobbyloblaw",
+            "email": "bob.loblaw@lawblog.com",
+            "password": "12345",
+        }
+        self.mocker.patch("backend.utils.get_user", return_value=mock_user_value)
+        expected = [
+            {
+                "id": 1,
+                "title": "Bob's Big Post",
+                "content": "Bob's law blog post is big",
+                "uid": 1,
+            }
+        ]
+
+        result = get_user_posts(1)
+
+        assert result[0]["id"] == expected[0]["id"]
+        assert result[0]["title"] == expected[0]["title"]
+        assert result[0]["content"] == expected[0]["content"]
+        assert result[0]["uid"] == expected[0]["uid"]
+
+    def test_user_not_found_returns_empty_dict(self):
+        mock_user_value = {
+            "id": 1,
+            "username": "bobbyloblaw",
+            "email": "bob.loblaw@lawblog.com",
+            "password": "12345",
+        }
+        self.mocker.patch("backend.utils.get_user", return_value=mock_user_value)
+        expected = []
+
+        result = get_user_posts(2)
+
+        assert expected == result
 
 
 class TestGetUser:

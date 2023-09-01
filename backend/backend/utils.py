@@ -20,6 +20,20 @@ def get_posts() -> list[dict]:
     ]
 
 
+def get_user_posts(uid) -> list[dict]:
+    posts = Post.query.all()
+
+    return [
+        {
+            "id": post.id,
+            "uid": post.uid,
+            "title": post.title,
+            "content": post.content,
+        }
+        for post in filter(lambda i: i.uid == uid, posts)
+    ]
+
+
 # ----- User utility functions ------ #
 def get_user(uid) -> dict:
     users = User.query.all()
