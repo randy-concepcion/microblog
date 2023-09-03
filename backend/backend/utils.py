@@ -6,6 +6,23 @@ from backend.models import (
 
 
 # ----- Post utility functions ----- #
+def add_post(title: str, content: str, uid: str) -> bool:
+    if title and content and uid:
+        try:
+            user = list(filter(lambda i: i.id == uid, User.query.all()))[0]
+            post = Post(title=title, content=content, user=user)
+            db.session.add(post)
+            db.session.commit()
+
+            return True
+
+        except Exception as err:
+            print(err)
+            raise
+
+    return False
+
+
 def get_posts() -> list[dict]:
     posts = Post.query.all()
 
@@ -20,7 +37,7 @@ def get_posts() -> list[dict]:
     ]
 
 
-def get_user_posts(uid) -> list[dict]:
+def get_user_posts(uid: int) -> list[dict]:
     posts = Post.query.all()
 
     return [
@@ -35,7 +52,7 @@ def get_user_posts(uid) -> list[dict]:
 
 
 # ----- User utility functions ------ #
-def get_user(uid) -> dict:
+def get_user(uid: int) -> dict:
     users = User.query.all()
     user = list(filter(lambda x: x.id == uid, users))[0]
 

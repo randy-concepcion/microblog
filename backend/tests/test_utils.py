@@ -1,5 +1,6 @@
 import pytest
 from backend.utils import (
+    add_post,
     add_user,
     get_posts,
     get_user_posts,
@@ -8,6 +9,50 @@ from backend.utils import (
     remove_user,
 )
 from sqlalchemy.exc import SQLAlchemyError
+
+
+class TestAddPost:
+    @pytest.fixture(autouse=True)
+    def __inject_fixtures(self, init_database, mocker):
+        self.init_db = init_database
+        self.mocker = mocker
+
+    @pytest.mark.parametrize(
+        "title,content,uid",
+        [
+            ("some title", "some content", None),
+            ("some title", None, 1),
+            (None, "some content", 1),
+            (None, None, None),
+            ("some title", None, None),
+            (None, "some content", None),
+            (None, None, 1),
+        ],
+    )
+    def test_missing_required_values_returns_false(self, title, content, uid):
+        result = add_post(title, content, uid)
+        assert result is False
+
+    def test_valid_values_returns_true(self):
+        title = "some title"
+        content = "some content"
+        uid = 1
+
+        mock_db_add = self.mocker.patch("backend.db.session.add")
+        mock_db_commit = self.mocker.patch("backend.db.session.commit")
+
+        result = add_post(title, content, uid)
+
+        mock_db_add.assert_called_once()
+        mock_db_commit.assert_called_once()
+        assert result is True
+
+    def test_db_session_add_post_raises_exception(self):
+        mock_db = self.mocker.patch("backend.db.session.commit")
+        mock_db.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
+
+        with pytest.raises(SQLAlchemyError):
+            add_post("some title", "some content", 1)
 
 
 class TestGetPosts:
@@ -163,7 +208,7 @@ class TestRemoveUser:
 
         assert result is False
 
-    def test_db_session_add_user_raises_exception(self):
+    def test_db_session_remove_user_raises_exception(self):
         mock_db = self.mocker.patch("backend.db.session.commit")
         mock_db.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
 
