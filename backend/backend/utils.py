@@ -26,7 +26,7 @@ def add_post(title: str, content: str, uid: str) -> bool:
 def delete_post(post_id: int) -> bool:
     if post_id:
         try:
-            post = Post.query.get(post_id)
+            post = db.session.get(Post, post_id)
             db.session.delete(post)
             db.session.commit()
 

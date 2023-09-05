@@ -19,6 +19,9 @@ def test_client():
 
 @pytest.fixture(scope="class")
 def init_database(test_client):
+    # Recreate db session from scratch when instantiated
+    db.session.close()
+    db.drop_all()
     db.create_all()
 
     default_user = User(
@@ -33,7 +36,3 @@ def init_database(test_client):
     db.session.add(default_post)
 
     db.session.commit()
-
-    yield
-
-    db.drop_all()
