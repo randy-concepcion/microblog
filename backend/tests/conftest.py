@@ -17,7 +17,7 @@ def test_client():
             yield testing_client
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="class")
 def init_database(test_client):
     db.create_all()
 
