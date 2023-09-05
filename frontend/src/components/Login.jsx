@@ -59,7 +59,7 @@ class Login extends Component {
                                 Login
                             </button>
                             <div data-testid="test-success-msg">
-                              {this.state.register && 'You\'re logged in!'}
+                              {this.state.login && 'You\'re logged in!'}
                             </div>
                         </div>
                     </form>
