@@ -1,9 +1,9 @@
-from backend.models import Users
+from backend.models import User
 
 
-class TestUsersModel:
+class TestUserModel:
     def test_new_user(self):
-        user = Users("bob", "loblaw@lawblog.com", "12345")
+        user = User("bob", "loblaw@lawblog.com", "12345")
         assert user.username == "bob"
         assert user.email == "loblaw@lawblog.com"
         assert user.pwd, "12345"
