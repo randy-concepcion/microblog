@@ -2,6 +2,7 @@ import pytest
 from backend.utils import (
     add_post,
     add_user,
+    delete_post,
     get_posts,
     get_user_posts,
     get_user,
@@ -55,11 +56,37 @@ class TestAddPost:
             add_post("some title", "some content", 1)
 
 
+class TestDeletePost:
+    @pytest.fixture(autouse=True)
+    def __init_fixtures(self, mocker, init_database):
+        self.mocker = mocker
+        self.mocker.resetall()
+        self.init_db = init_database
+
+    def test_valid_post_id_returns_true(self):
+        result = delete_post("1")
+
+        assert result is True
+
+    def test_no_uid_returns_false(self):
+        result = delete_post(None)
+
+        assert result is False
+
+    def test_db_session_delete_post_raises_exception(self):
+        mock_db = self.mocker.patch("backend.db.session.commit")
+        mock_db.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
+
+        with pytest.raises(SQLAlchemyError):
+            delete_post("1")
+
+
 class TestGetPosts:
     @pytest.fixture(autouse=True)
     def __inject_fixtures(self, mocker, init_database):
-        self.init_db = init_database
         self.mocker = mocker
+        self.mocker.resetall()
+        self.init_db = init_database
 
     def test_returns_posts_dict(self):
         mock_user_value = {
@@ -89,8 +116,9 @@ class TestGetPosts:
 class TestGetUserPosts:
     @pytest.fixture(autouse=True)
     def __inject_fixtures(self, mocker, init_database):
-        self.init_db = init_database
         self.mocker = mocker
+        self.mocker.resetall()
+        self.init_db = init_database
 
     def test_user_found_returns_posts_dict(self):
         mock_user_value = {
@@ -195,10 +223,10 @@ class TestRemoveUser:
     @pytest.fixture(autouse=True)
     def __init_fixtures(self, mocker, init_database):
         self.mocker = mocker
+        self.mocker.resetall()
         self.init_db = init_database
 
     def test_valid_uid_returns_true(self):
-        self.mocker.resetall()
         result = remove_user("1")
 
         assert result is True

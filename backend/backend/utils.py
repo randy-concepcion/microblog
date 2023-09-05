@@ -23,6 +23,22 @@ def add_post(title: str, content: str, uid: str) -> bool:
     return False
 
 
+def delete_post(post_id: int) -> bool:
+    if post_id:
+        try:
+            post = Post.query.get(post_id)
+            db.session.delete(post)
+            db.session.commit()
+
+            return True
+
+        except Exception as err:
+            print(err)
+            raise
+
+    return False
+
+
 def get_posts() -> list[dict]:
     posts = Post.query.all()
 
