@@ -14,11 +14,7 @@ async function login (email, pwd) {
 }
 
 function checkToken () {
-  if (localStorage.getItem('token')) {
-    return true
-  }
-
-  return false
+  return localStorage.getItem('token')
 }
 
 export { login, checkToken }
