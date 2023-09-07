@@ -25,8 +25,12 @@ repos:
     stages: [push]
     entry: bash -c "cd backend && bin/test"
     additional_dependencies:
+      - email-validator
       - Flask
+      - flask-cors
+      - flask-jwt-extended
       - flask-sqlalchemy
+      - flask-wtf
       - pytest
       - pytest-cov
       - pytest-mock
