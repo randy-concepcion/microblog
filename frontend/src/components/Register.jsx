@@ -16,11 +16,10 @@ class Register extends Component {
         pwd: document.getElementById('password').value
       })
       .then((res) => {
-        console.log('success', res)
         this.setState({ register: true })
+        window.location = '/login'
       })
       .catch((error) => {
-        console.log('error', error.response.data.error)
         this.setState({ err: error.response.data.error })
       })
   }
