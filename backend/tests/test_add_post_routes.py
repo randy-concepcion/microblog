@@ -1,4 +1,5 @@
 import pytest
+from flask_jwt_extended import create_access_token
 
 
 class TestAddPostEndpointPost:
@@ -9,6 +10,28 @@ class TestAddPostEndpointPost:
         self.test_client = test_client
         self.init_db = init_database
 
+        jwt_token = create_access_token("test-user")
+        self.header = {"Authorization": f"Bearer {jwt_token}"}
+
+    def test_no_jwt_token_raises_auth_error(self):
+        post_json = {
+            "title": "My test post title",
+            "content": "My test post content",
+            "uid": 1,
+        }
+
+        mock_add_post = self.mocker.patch("backend.add_post.routes.utils_add_post")
+
+        response = self.test_client.post(
+            self.endpoint,
+            content_type="application/json",
+            json=post_json,
+        )
+
+        assert response.status_code == 401
+        assert b"Missing Authorization Header" in response.data
+        mock_add_post.assert_not_called()
+
     def test_bad_data_raises_exception(self):
         post_json = {"unexpected": "data"}
 
@@ -18,6 +41,7 @@ class TestAddPostEndpointPost:
             self.endpoint,
             content_type="application/json",
             json=post_json,
+            headers=self.header,
         )
 
         assert response.status_code == 400
@@ -35,6 +59,7 @@ class TestAddPostEndpointPost:
             self.endpoint,
             content_type="application/json",
             json=post_json,
+            headers=self.header,
         )
 
         assert response.status_code == 200
