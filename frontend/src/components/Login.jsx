@@ -1,25 +1,24 @@
 // src/components/Login.jsx
 import { Component } from 'react'
-import axios from 'axios'
 import Alert from './Alert'
+import { login } from '../utils/login'
 
 class Login extends Component {
   state = { err: '' }
 
   login = (e) => {
     e.preventDefault()
-    axios
-      .post('http://localhost:5000/api/login', {
-        email: document.getElementById('email').value,
-        pwd: document.getElementById('password').value
-      })
+    login(
+      document.getElementById('email').value,
+      document.getElementById('password').value)
       .then((res) => {
-        console.log('success', res)
-        this.setState({ login: true })
-      })
-      .catch((error) => {
-        console.log('error', error.response.data.error)
-        this.setState({ err: error.response.data.error })
+        if (res === true) {
+          console.log('success', res)
+          this.setState({ login: true })
+        } else {
+          console.log('error', res)
+          this.setState({ err: res })
+        }
       })
   }
 
