@@ -1,9 +1,10 @@
+from . import login_blueprint
+from backend.utils import get_users
 from flask import (
     jsonify,
     request,
 )
-from . import login_blueprint
-from backend.utils import get_users
+from flask_jwt_extended import create_access_token
 
 
 @login_blueprint.route("/api/login", methods=["POST"])
@@ -14,26 +15,18 @@ def login():
         email = request.json["email"]
         password = request.json["pwd"]
         if email and password:
-            users = get_users()
-
-            # Check if user exists
-            return (
-                jsonify(
-                    len(
-                        list(
-                            filter(
-                                lambda x: x["email"] == email and x["pwd"] == password,
-                                users,
-                            )
-                        )
-                    )
-                    == 1
-                ),
-                200,
-                json_mimetype,
+            user = list(
+                filter(
+                    lambda x: x["email"] == email and x["password"] == password,
+                    get_users(),
+                )
             )
-        else:
-            return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
+
+            if len(user) == 1:
+                jwt_token = create_access_token(identity=user[0]["id"])
+                return (jsonify({"token": jwt_token}), 200, json_mimetype)
+
+        return (jsonify({"error": "Invalid credentials"}), 200, json_mimetype)
 
     except Exception as err:
         return (jsonify({"error": str(err)}), 400, json_mimetype)
