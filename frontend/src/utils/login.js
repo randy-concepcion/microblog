@@ -1,8 +1,8 @@
 // src/utils/login.js
-import Axios from 'axios'
+import axios from 'axios'
 
 async function login (email, pwd) {
-  const response = await Axios.post('http://localhost:5000/api/login', { email, pwd })
+  const response = await axios.post('http://localhost:5000/api/login', { email, pwd })
   const { data } = await response
 
   if (data.error) {
@@ -13,4 +13,12 @@ async function login (email, pwd) {
   }
 }
 
-export { login }
+function checkToken() {
+  if (localStorage.getItem('token')) {
+    return true
+  }
+
+  return false
+}
+
+export { login, checkToken }
