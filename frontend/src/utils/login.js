@@ -13,7 +13,7 @@ async function login (email, pwd) {
   }
 }
 
-function checkToken() {
+function checkToken () {
   if (localStorage.getItem('token')) {
     return true
   }
