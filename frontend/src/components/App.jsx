@@ -14,7 +14,7 @@ function App () {
             <Navbar />
             <Router>
                 <Routes>
-                        <Route path="/" exact component={ checkToken() ? MainPage : Home } />
+                        <Route path="/" exact element={ checkToken() ? <MainPage /> : <Home />} />
                         <Route path="/login" exact element={<Login />} />
                         <Route path="/register" exact element={<Register />} />
                 </Routes>
