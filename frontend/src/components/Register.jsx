@@ -16,6 +16,7 @@ class Register extends Component {
         pwd: document.getElementById('password').value
       })
       .then((res) => {
+        this.setState({ register: true })
         window.location = '/login'
       })
       .catch((error) => {

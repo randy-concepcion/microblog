@@ -13,6 +13,7 @@ class Login extends Component {
       document.getElementById('password').value)
       .then((res) => {
         if (res === true) {
+          this.setState({ login: true })
           window.location = '/'
         } else {
           this.setState({ err: res })
