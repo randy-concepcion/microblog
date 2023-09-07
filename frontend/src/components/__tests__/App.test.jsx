@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import App from '../App'
-import * as login from '../../utils/login'
 
 test('App should render App fragment component correctly for Home page', async () => {
   render(<App />)
@@ -20,8 +19,7 @@ test('App should render App fragment component correctly for Home page', async (
 })
 
 test('App should render App fragment component correctly for Main page', async () => {
-  const mockCheckToken = jest.spyOn(login, 'checkToken')
-  mockCheckToken.mockResolvedValueOnce(true)
+  localStorage.setItem('token', 'test-token')
   render(<App />)
 
   expect(await screen.getByTestId('test-navbar')).toBeInTheDocument()
