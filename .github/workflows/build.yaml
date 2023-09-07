@@ -36,6 +36,9 @@ jobs:
         run: |
           cd backend
           poetry run bin/test
+        env:
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          CSRF_SECRET_KEY: ${{ secrets.CSRF_SECRET_KEY }}
 
       - name: Upload pytest test report
         uses: actions/upload-artifact@v3

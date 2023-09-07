@@ -3,6 +3,7 @@
 # By default, we will generate the XML report file, but we can pass in an argument value 'html'
 # for this script to generate the HTML report locally
 HTML_FLAG=$1
+EXIT_CODE=0
 echo 'Running bin/test'
 
 echo "Running pytest in '$(pwd).'"
@@ -11,12 +12,15 @@ if [[ "${HTML_FLAG}" == "html" ]]
 then
     echo "...HTML report generating"
     pytest -v --cov=. --cov-branch --cov-report html ./tests
+    EXIT_CODE=$(echo $?)
 else
     echo "...XML report generating for SonarCloud"
     pytest -v --cov=. --cov-branch --cov-report=xml:coverage/coverage.xml ./tests
+    EXIT_CODE=$(echo $?)
 
     # Workaround for resolving report paths for sonar-scanner docker image
     sed -i "s/<source>.*\/microblog/<source>\/app/g" coverage/coverage.xml
 fi
 
-echo "--- unit test run complete"
+echo "--- unit test run complete: exiting with status ${EXIT_CODE}"
+exit $EXIT_CODE
