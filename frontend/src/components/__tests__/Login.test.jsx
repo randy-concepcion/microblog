@@ -28,7 +28,9 @@ describe('User interacts with Login component', () => {
   test('User logs in with valid credentials', async () => {
     const mockAxios = jest.spyOn(axios, 'post')
     mockAxios.mockResolvedValueOnce({
-      success: 'You\'re logged in!'
+      data: {
+        success: 'You\'re logged in!'
+      }
     })
 
     render(<Login />)
@@ -53,11 +55,9 @@ describe('User interacts with Login component', () => {
 
   test('User logs in with no credentials', async () => {
     const mockAxios = jest.spyOn(axios, 'post')
-    mockAxios.mockRejectedValueOnce({
-      response: {
-        data: {
-          error: 'Invalid form'
-        }
+    mockAxios.mockResolvedValueOnce({
+      data: {
+        error: 'Invalid form'
       }
     })
 
