@@ -1,12 +1,14 @@
+from . import add_post_blueprint
+from backend.utils import add_post as utils_add_post
 from flask import (
     jsonify,
     request,
 )
-from . import add_post_blueprint
-from backend.utils import add_post as utils_add_post
+from flask_jwt_extended import jwt_required
 
 
 @add_post_blueprint.route("/api/add_post", methods=["POST"])
+@jwt_required()
 def add_post():
     json_mimetype = {"Content-Type": "application/json"}
 

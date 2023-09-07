@@ -1,6 +1,6 @@
-from flask import jsonify
 from . import get_posts_blueprint
 from backend.utils import get_posts as utils_get_posts
+from flask import jsonify
 
 
 @get_posts_blueprint.route("/api/posts", methods=["GET"])
