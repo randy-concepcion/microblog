@@ -6,5 +6,5 @@ cd frontend/
 npm run test
 
 # Run pre-push git hook for backend
-cd ..
-.git/hooks/pre-push origin git@github.com:randy-concepcion/microblog.git
+cd ../backend/
+pre-commit run --hook-stage push
