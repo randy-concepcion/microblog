@@ -46,7 +46,7 @@ describe('User interacts with Register component', () => {
     expect(screen.getByTestId('test-success-msg')).toBeInTheDocument()
     expect(mockAxios).toHaveBeenCalledTimes(1)
     expect(mockAxios).toHaveBeenCalledWith(
-      'http://localhost:5000/api/register',
+      '/api/register',
       {
         email: 'test@test.com',
         pwd: 'test',
@@ -73,7 +73,7 @@ describe('User interacts with Register component', () => {
     expect(screen.getByTestId('test-alert-msg')).toBeInTheDocument()
     expect(mockAxios).toHaveBeenCalledTimes(1)
     expect(mockAxios).toHaveBeenCalledWith(
-      'http://localhost:5000/api/register',
+      '/api/register',
       { email: '', pwd: '', username: '' }
     )
   })

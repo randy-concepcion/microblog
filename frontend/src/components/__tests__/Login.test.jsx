@@ -45,7 +45,7 @@ describe('User interacts with Login component', () => {
     expect(screen.getByTestId('test-success-msg')).toBeInTheDocument()
     expect(mockAxios).toHaveBeenCalledTimes(1)
     expect(mockAxios).toHaveBeenCalledWith(
-      'http://localhost:5000/api/login',
+      '/api/login',
       {
         email: 'test@test.com',
         pwd: 'test'
@@ -69,7 +69,7 @@ describe('User interacts with Login component', () => {
     expect(screen.getByTestId('test-alert-msg')).toBeInTheDocument()
     expect(mockAxios).toHaveBeenCalledTimes(1)
     expect(mockAxios).toHaveBeenCalledWith(
-      'http://localhost:5000/api/login',
+      '/api/login',
       { email: '', pwd: '' }
     )
   })
