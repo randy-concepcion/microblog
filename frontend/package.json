@@ -8,13 +8,11 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
-    "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "vite build",
     "lint": "eslint --ext .js,.jsx ./src --fix",
     "test": "jest"
   },
@@ -37,10 +35,13 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.22.11",
     "@testing-library/jest-dom": "^6.0.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@vitejs/plugin-react": "^4.0.4",
+    "vite": "^4.4.9",
+    "sass": "1.67.0",
     "eslint": "^8.47.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.28.1",
