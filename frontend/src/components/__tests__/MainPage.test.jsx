@@ -1,10 +1,46 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
+import axios from 'axios'
 import '@testing-library/jest-dom'
 import MainPage from '../MainPage'
 
-test('MainPage should render MainPage fragment component correctly', async () => {
-  render(<MainPage />)
+describe('User interacts with MainPage component to display content', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
-  expect(await screen.getByTestId('test-main-posts')).toBeInTheDocument()
-  expect(await screen.getByTestId('test-posts-list')).toBeInTheDocument()
+  test('When user does not see any posts displayed', async () => {
+    const mockAxios = jest.spyOn(axios, 'get')
+    mockAxios.mockResolvedValueOnce({
+      data: []
+    })
+
+    await act(async () => render(<MainPage />))
+
+    expect(await screen.getByTestId('test-main-posts')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-posts-list')).toBeInTheDocument()
+    expect(await screen.getByText('No posts! Create one')).toBeInTheDocument()
+  })
+
+  test('When user sees content from posts displayed', async () => {
+    const testTitle = 'Test post title'
+    const testContent = 'Test post content'
+    const mockAxios = jest.spyOn(axios, 'get')
+    mockAxios.mockResolvedValueOnce({
+      data: [
+        {
+          id: 1,
+          title: testTitle,
+          content: testContent,
+          user: 1
+        }
+      ]
+    })
+
+    await act(async () => render(<MainPage />))
+
+    expect(await screen.getByTestId('test-main-posts')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-posts-list')).toBeInTheDocument()
+    expect(await screen.getByText(testTitle)).toBeInTheDocument()
+    expect(await screen.getByText(testContent)).toBeInTheDocument()
+  })
 })
