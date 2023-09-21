@@ -4,7 +4,10 @@ from flask import (
     jsonify,
     request,
 )
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+)
 
 
 @login_blueprint.route("/api/login", methods=["POST"])
@@ -24,7 +27,12 @@ def login():
 
             if len(user) == 1:
                 jwt_token = create_access_token(identity=user[0]["id"])
-                return (jsonify({"token": jwt_token}), 200, json_mimetype)
+                refresh_token = create_refresh_token(identity=user[0]["id"])
+                return (
+                    jsonify({"token": jwt_token, "refreshToken": refresh_token}),
+                    200,
+                    json_mimetype,
+                )
 
         return (jsonify({"error": "Invalid credentials"}), 200, json_mimetype)
 
