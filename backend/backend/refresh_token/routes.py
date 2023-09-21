@@ -4,12 +4,12 @@ from flask import jsonify
 from flask_jwt_extended import (
     create_access_token,
     get_jwt_identity,
-    jwt_refresh_token_required,
+    jwt_required,
 )
 
 
 @refresh_token_blueprint.route("/api/refresh_token", methods=["POST"])
-@jwt_refresh_token_required
+@jwt_required(refresh=True)
 def refresh_token():
     json_mimetype = {"Content-Type": "application/json"}
     identity = get_jwt_identity()
