@@ -33,7 +33,6 @@ def create_app():
 
 def register_blueprints(app):
     from backend.add_post import add_post_blueprint
-    from backend.check_token_expiration import token_expiration_blueprint
     from backend.delete_post import delete_post_blueprint
     from backend.get_posts import get_posts_blueprint
     from backend.login import login_blueprint
@@ -41,6 +40,7 @@ def register_blueprints(app):
     from backend.logout_refresh import logout_refresh_blueprint
     from backend.refresh_token import refresh_token_blueprint
     from backend.register import register_blueprint
+    from backend.token_expiration import token_expiration_blueprint
     from backend.users import users_blueprint
 
     # TODO: Add CSRF protection for routes
