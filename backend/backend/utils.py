@@ -1,5 +1,9 @@
-from backend import db
+from backend import (
+    db,
+    jwt,
+)
 from backend.models import (
+    InvalidToken,
     Post,
     User,
 )
@@ -124,3 +128,10 @@ def remove_user(uid: str) -> bool:
             raise
 
     return False
+
+
+# ----- JWT Token utility functions ----- #
+@jwt.token_in_blacklist_loader
+def check_if_blacklisted_token(decrypted):
+    jti = decrypted["jti"]
+    return InvalidToken.is_invalid(jti)
