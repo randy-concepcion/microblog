@@ -1,4 +1,4 @@
-from . import logout_access_blueprint
+from . import logout_refresh_blueprint
 from ..models import InvalidToken
 from flask import jsonify
 
@@ -8,9 +8,9 @@ from flask_jwt_extended import (
 )
 
 
-@logout_access_blueprint.route("/api/logout/access", methods=["POST"])
+@logout_refresh_blueprint.route("/api/logout/refresh", methods=["POST"])
 @jwt_required()
-def logout_access():
+def logout_refresh():
     json_mimetype = {"Content-Type": "application/json"}
     jti = get_raw_jwt()["jti"]
 
