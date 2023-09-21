@@ -3,7 +3,7 @@ from ..models import InvalidToken
 from flask import jsonify
 
 from flask_jwt_extended import (
-    get_raw_jwt,
+    get_jwt,
     jwt_required,
 )
 
@@ -12,7 +12,7 @@ from flask_jwt_extended import (
 @jwt_required()
 def logout_access():
     json_mimetype = {"Content-Type": "application/json"}
-    jti = get_raw_jwt()["jti"]
+    jti = get_jwt()["jti"]
 
     try:
         invalid_token = InvalidToken(jti=jti)
