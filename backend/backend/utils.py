@@ -131,7 +131,7 @@ def remove_user(uid: str) -> bool:
 
 
 # ----- JWT Token utility functions ----- #
-@jwt.token_in_blacklist_loader
-def check_if_blacklisted_token(decrypted):
+@jwt.token_in_blocklist_loader
+def check_if_blocklisted_token(decrypted):
     jti = decrypted["jti"]
     return InvalidToken.is_invalid(jti)
