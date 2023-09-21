@@ -47,4 +47,41 @@ async function checkToken () {
   }
 }
 
-export { login, checkToken }
+function logout () {
+  if (localStorage.getItem('token')) {
+    const token = localStorage.getItem('token')
+
+    axios.post('/api/logout/access', {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(response => {
+      if (response.data.error) {
+        console.error(response.data.error)
+      } else {
+        localStorage.removeItem('token')
+      }
+    })
+  }
+
+  if (localStorage.getItem('refreshToken')) {
+    const refreshToken = localStorage.getItem('refreshToken')
+
+    axios.post('/api/logout/refresh', {}, {
+      header: {
+        Authorization: `Bearer ${refreshToken}`
+      }
+    }).then(response => {
+      if (response.data.error) {
+        console.error(response.data.error)
+      } else {
+        localStorage.removeItem('refreshToken')
+      }
+    })
+  }
+
+  localStorage.clear()
+  setTimeout(() => { window.location = '/' }, 500)
+}
+
+export { login, checkToken, logout }
