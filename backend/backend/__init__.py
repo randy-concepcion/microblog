@@ -37,6 +37,7 @@ def register_blueprints(app):
     from backend.delete_post import delete_post_blueprint
     from backend.get_posts import get_posts_blueprint
     from backend.login import login_blueprint
+    from backend.refresh_token import refresh_token_blueprint
     from backend.register import register_blueprint
     from backend.users import users_blueprint
 
@@ -55,5 +56,6 @@ def register_blueprints(app):
     app.register_blueprint(delete_post_blueprint)
     app.register_blueprint(get_posts_blueprint)
     app.register_blueprint(login_blueprint)
+    app.register_blueprint(refresh_token_blueprint)
     app.register_blueprint(register_blueprint)
     app.register_blueprint(users_blueprint)
