@@ -26,7 +26,6 @@ class TestLogoutRefreshEndpointPost:
         assert b"error" in response.data
 
     def test_returns_success(self):
-        self.mocker.patch("backend.logout_access.routes.InvalidToken")
         access_token = create_access_token("jwt_token")
         headers = {"Authorization": f"Bearer {access_token}"}
 
