@@ -8,7 +8,9 @@ class Logout extends React.Component {
 
   render () {
     return (
-      <div className="w3-container w3-xlarge">
+      <div
+        className="w3-container w3-xlarge"
+        data-testid="test-logout-message">
         <p>Please wait, logging you out...</p>
       </div>
     )
