@@ -1,7 +1,7 @@
 import React from 'react'
 import { logout } from '../utils/login'
 
-class Logout extends React.component {
+class Logout extends React.Component {
   componentDidMount () {
     logout()
   }
