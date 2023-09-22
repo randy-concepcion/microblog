@@ -3,7 +3,7 @@ from flask_jwt_extended import create_access_token
 from sqlalchemy.exc import SQLAlchemyError
 
 
-class TestLogoutAccessEndpointPost:
+class TestLogoutRefreshEndpointPost:
     @pytest.fixture(autouse=True)
     def __inject_fixtures(self, mocker, test_client):
         self.endpoint = "/api/logout/refresh"
