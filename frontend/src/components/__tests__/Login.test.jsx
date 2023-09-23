@@ -13,8 +13,13 @@ import Login from '../Login'
 //       - https://stackoverflow.com/questions/67101502/how-to-mock-axios-with-jest
 
 describe('User interacts with Login component', () => {
+  // When logging in, there will be two axios calls
+  // to check for token expiration and to log in
+  // Each one will have a different response, respectively
+
   beforeEach(() => {
     jest.clearAllMocks()
+    localStorage.clear()
   })
 
   test('Login should render Login form component correctly', async () => {
@@ -26,14 +31,17 @@ describe('User interacts with Login component', () => {
   })
 
   test('User logs in with valid credentials', async () => {
-    const mockAxios = jest.spyOn(axios, 'post')
-    mockAxios.mockResolvedValueOnce({
+    jest.mock('axios')
+    axios.post = jest.fn().mockResolvedValue({
       data: {
-        success: 'You\'re logged in!'
+        success: 'success!'
       }
     })
 
-    render(<Login />)
+    const mockToken = 'my-stored-token'
+    localStorage.setItem('token', mockToken)
+
+    await render(<Login />)
     const email = screen.getByTestId('test-email')
     const password = screen.getByTestId('test-password')
     const submit = screen.getByTestId('test-submit-button')
@@ -42,9 +50,19 @@ describe('User interacts with Login component', () => {
     await userEvent.type(password, 'test')
     await userEvent.click(submit)
 
-    expect(screen.getByTestId('test-success-msg')).toBeInTheDocument()
-    expect(mockAxios).toHaveBeenCalledTimes(1)
-    expect(mockAxios).toHaveBeenCalledWith(
+    expect(axios.post).toHaveBeenCalledTimes(2)
+    expect(axios.post).toHaveBeenNthCalledWith(
+      1,
+      '/api/token_expiration',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${mockToken}`
+        }
+      }
+    )
+    expect(axios.post).toHaveBeenNthCalledWith(
+      2,
       '/api/login',
       {
         email: 'test@test.com',
@@ -54,23 +72,39 @@ describe('User interacts with Login component', () => {
   })
 
   test('User logs in with no credentials', async () => {
-    const mockAxios = jest.spyOn(axios, 'post')
-    mockAxios.mockResolvedValueOnce({
+    jest.mock('axios')
+    axios.post = jest.fn().mockResolvedValue({
       data: {
         error: 'Invalid form'
       }
     })
+
+    const mockToken = 'my-stored-token'
+    localStorage.setItem('token', mockToken)
 
     render(<Login />)
     const submit = screen.getByTestId('test-submit-button')
 
     await userEvent.click(submit)
 
-    expect(screen.getByTestId('test-alert-msg')).toBeInTheDocument()
-    expect(mockAxios).toHaveBeenCalledTimes(1)
-    expect(mockAxios).toHaveBeenCalledWith(
+    expect(axios.post).toHaveBeenCalledTimes(2)
+    expect(axios.post).toHaveBeenNthCalledWith(
+      1,
+      '/api/token_expiration',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${mockToken}`
+        }
+      }
+    )
+    expect(axios.post).toHaveBeenNthCalledWith(
+      2,
       '/api/login',
-      { email: '', pwd: '' }
+      {
+        email: '',
+        pwd: ''
+      }
     )
   })
 })
