@@ -68,7 +68,7 @@ function logout () {
     const refreshToken = localStorage.getItem('refreshToken')
 
     axios.post('/api/logout/refresh', {}, {
-      header: {
+      headers: {
         Authorization: `Bearer ${refreshToken}`
       }
     }).then(response => {
