@@ -12,7 +12,7 @@ describe('User interacts with Logout component', () => {
     delete window.location
   })
 
-  test('Logout should render Logout form component correctly', async () => {
+  test('Logout should render Logout form component correctly with no tokens in localStorage', async () => {
     render(<Logout />)
 
     expect(await screen.getByTestId('test-logout-message')).toBeInTheDocument()
