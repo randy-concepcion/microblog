@@ -57,7 +57,7 @@ function logout () {
       }
     }).then(response => {
       if (response.data.error) {
-        console.error(response.data.error)
+        console.log(response.data.error)
       } else {
         localStorage.removeItem('token')
       }
@@ -73,7 +73,7 @@ function logout () {
       }
     }).then(response => {
       if (response.data.error) {
-        console.error(response.data.error)
+        console.log(response.data.error)
       } else {
         localStorage.removeItem('refreshToken')
       }
