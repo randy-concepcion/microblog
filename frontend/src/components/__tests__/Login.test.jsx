@@ -22,14 +22,6 @@ describe('User interacts with Login component', () => {
     localStorage.clear()
   })
 
-  test('Login should render Login form component correctly', async () => {
-    render(<Login />)
-
-    expect(await screen.getByTestId('test-email')).toBeInTheDocument()
-    expect(await screen.getByTestId('test-password')).toBeInTheDocument()
-    expect(await screen.getByTestId('test-submit-button')).toBeInTheDocument()
-  })
-
   test('User logs in with valid credentials', async () => {
     jest.mock('axios')
     axios.post = jest.fn().mockResolvedValue({

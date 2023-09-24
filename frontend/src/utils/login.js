@@ -27,7 +27,6 @@ async function checkToken () {
     const { data } = await response
     return data.success
   } catch {
-    console.log('p')
     const refreshToken = localStorage.getItem('refreshToken')
 
     if (!refreshToken) {
