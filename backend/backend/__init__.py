@@ -36,7 +36,11 @@ def register_blueprints(app):
     from backend.delete_post import delete_post_blueprint
     from backend.get_posts import get_posts_blueprint
     from backend.login import login_blueprint
+    from backend.logout_access import logout_access_blueprint
+    from backend.logout_refresh import logout_refresh_blueprint
+    from backend.refresh_token import refresh_token_blueprint
     from backend.register import register_blueprint
+    from backend.token_expiration import token_expiration_blueprint
     from backend.users import users_blueprint
 
     # TODO: Add CSRF protection for routes
@@ -50,8 +54,12 @@ def register_blueprints(app):
     csrf.exempt(users_blueprint)
 
     app.register_blueprint(add_post_blueprint)
+    app.register_blueprint(token_expiration_blueprint)
     app.register_blueprint(delete_post_blueprint)
     app.register_blueprint(get_posts_blueprint)
     app.register_blueprint(login_blueprint)
+    app.register_blueprint(logout_access_blueprint)
+    app.register_blueprint(logout_refresh_blueprint)
+    app.register_blueprint(refresh_token_blueprint)
     app.register_blueprint(register_blueprint)
     app.register_blueprint(users_blueprint)

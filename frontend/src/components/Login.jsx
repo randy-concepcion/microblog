@@ -1,10 +1,18 @@
 // src/components/Login.jsx
 import { Component } from 'react'
 import Alert from './Alert'
-import { login } from '../utils/login'
+import { login, checkToken } from '../utils/login'
 
 class Login extends Component {
   state = { err: '' }
+
+  componentDidMount () {
+    checkToken().then(response => {
+      if (response) {
+        window.location = '/'
+      }
+    })
+  }
 
   login = (e) => {
     e.preventDefault()
@@ -13,7 +21,6 @@ class Login extends Component {
       document.getElementById('password').value)
       .then((res) => {
         if (res === true) {
-          this.setState({ login: true })
           window.location = '/'
         } else {
           this.setState({ err: res })
@@ -52,14 +59,11 @@ class Login extends Component {
                                 data-testid="test-password"
                             />
                         </p>
-                        <div style={{ marginBottom: '1rem' }}>
+                        <p>
                             <button type="submit" className="w3-button w3-blue" data-testid="test-submit-button">
                                 Login
                             </button>
-                            <div data-testid="test-success-msg">
-                              {this.state.login && 'You\'re logged in!'}
-                            </div>
-                        </div>
+                        </p>
                     </form>
                 </div>
             </div>
