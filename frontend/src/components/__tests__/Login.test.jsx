@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import axios from 'axios'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
@@ -63,7 +63,68 @@ describe('User interacts with Login component', () => {
     )
   })
 
-  test('User logs in with no credentials', async () => {
+  test('User logs in with no credentials with an existing refresh token in localStorage', async () => {
+    jest.mock('axios')
+
+    // Return mocked responses for 3 separate API calls
+    axios.post = jest.fn()
+      .mockResolvedValueOnce({
+        error: 'Error with token expiration'
+      })
+      .mockResolvedValueOnce({
+        data: {
+          token: 'my-refresh-token'
+        }
+      })
+      .mockResolvedValueOnce({
+        data: {
+          error: 'Invalid token'
+        }
+      })
+
+    const mockAccessToken = 'my-access-token'
+    localStorage.setItem('token', mockAccessToken)
+
+    const mockRefreshToken = 'my-refresh-token'
+    localStorage.setItem('refreshToken', mockRefreshToken)
+
+    await act(async () => { render(<Login />) })
+    const submit = screen.getByTestId('test-submit-button')
+
+    await userEvent.click(submit)
+
+    expect(axios.post).toHaveBeenCalledTimes(3)
+    expect(axios.post).toHaveBeenNthCalledWith(
+      1,
+      '/api/token_expiration',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${mockAccessToken}`
+        }
+      }
+    )
+    expect(axios.post).toHaveBeenNthCalledWith(
+      2,
+      '/api/refresh_token',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${mockRefreshToken}`
+        }
+      }
+    )
+    expect(axios.post).toHaveBeenNthCalledWith(
+      3,
+      '/api/login',
+      {
+        email: '',
+        pwd: ''
+      }
+    )
+  })
+
+  test('User logs in with no credentials with no existing refresh token in localStorage', async () => {
     jest.mock('axios')
     axios.post = jest.fn().mockResolvedValue({
       data: {
