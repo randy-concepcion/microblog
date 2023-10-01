@@ -17,16 +17,7 @@ async function login (email, pwd) {
 async function checkToken () {
   const token = localStorage.getItem('token')
 
-  try {
-    const response = await axios.post('/api/token_expiration', {}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-
-    const { data } = await response
-    return data.success
-  } catch {
+  if (!token) {
     const refreshToken = localStorage.getItem('refreshToken')
 
     if (!refreshToken) {
@@ -44,6 +35,15 @@ async function checkToken () {
 
     return true
   }
+
+  const response = await axios.post('/api/token_expiration', {}, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  const { data } = await response
+  return data.success
 }
 
 function logout () {

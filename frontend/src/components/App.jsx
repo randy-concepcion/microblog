@@ -16,7 +16,7 @@ function App () {
 
   return (
         <React.Fragment>
-            <Navbar />
+            <Navbar isLoggedIn={login} />
             <Router>
                 <Routes>
                         <Route path="/" exact element={ login ? <MainPage /> : <Home />} />

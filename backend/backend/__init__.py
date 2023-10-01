@@ -50,7 +50,11 @@ def register_blueprints(app):
     csrf.exempt(delete_post_blueprint)
     csrf.exempt(get_posts_blueprint)
     csrf.exempt(login_blueprint)
+    csrf.exempt(logout_access_blueprint)
+    csrf.exempt(logout_refresh_blueprint)
+    csrf.exempt(refresh_token_blueprint)
     csrf.exempt(register_blueprint)
+    csrf.exempt(token_expiration_blueprint)
     csrf.exempt(users_blueprint)
 
     app.register_blueprint(add_post_blueprint)
