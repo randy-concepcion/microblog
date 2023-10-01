@@ -5,7 +5,7 @@ function AddPost () {
     <div className="w3-modal w3-animate-opacity" id="addPost" data-testid="test-add-post">
       <div className="w3-modal-content w3-card">
         <header className="w3-container w3-blue">
-          <span className="w3-button w3-display-topright w3-hover-none w3-hover-text-white" onClick={ () => {
+          <span className="w3-button w3-display-topright w3-hover-none w3-hover-text-white" data-testid="test-add-post-button" onClick={ () => {
             document.getElementById('addPost').style.display = 'none'
           }}>X</span>
           <h2>Add Post</h2>
