@@ -10,19 +10,21 @@ function Navbar ({ isLoggedIn }) {
             <div style={{ float: 'right' }}>
                 { isLoggedIn
                   ? (
-                    <a className="w3-bar-item w3-button" href="/logout">
-                        Logout
-                    </a>
+                      <a className="w3-bar-item w3-button" href="/logout">
+                          Logout
+                      </a>
                     )
                   : (
-                    <a className="w3-bar-item w3-button" href="/login">
-                        Login
-                    </a>
+                      <div>
+                        <a className="w3-bar-item w3-button" href="/login">
+                            Login
+                        </a>
+                        <a className="w3-bar-item w3-button" href="/register">
+                            Register
+                        </a>
+                      </div>
                     )
                 }
-                <a className="w3-bar-item w3-button" href="/register">
-                    Register
-                </a>
             </div>
         </div>
   )
