@@ -69,11 +69,8 @@ describe('User interacts with Login component', () => {
     // Return mocked responses for 3 separate API calls
     axios.post = jest.fn()
       .mockResolvedValueOnce({
-        error: 'Error with token expiration'
-      })
-      .mockResolvedValueOnce({
         data: {
-          token: 'my-refresh-token'
+          success: true
         }
       })
       .mockResolvedValueOnce({
@@ -93,7 +90,7 @@ describe('User interacts with Login component', () => {
 
     await userEvent.click(submit)
 
-    expect(axios.post).toHaveBeenCalledTimes(3)
+    expect(axios.post).toHaveBeenCalledTimes(2)
     expect(axios.post).toHaveBeenNthCalledWith(
       1,
       '/api/token_expiration',
@@ -106,16 +103,6 @@ describe('User interacts with Login component', () => {
     )
     expect(axios.post).toHaveBeenNthCalledWith(
       2,
-      '/api/refresh_token',
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${mockRefreshToken}`
-        }
-      }
-    )
-    expect(axios.post).toHaveBeenNthCalledWith(
-      3,
       '/api/login',
       {
         email: '',
@@ -148,6 +135,49 @@ describe('User interacts with Login component', () => {
       {
         headers: {
           Authorization: `Bearer ${mockToken}`
+        }
+      }
+    )
+    expect(axios.post).toHaveBeenNthCalledWith(
+      2,
+      '/api/login',
+      {
+        email: '',
+        pwd: ''
+      }
+    )
+  })
+
+  test('User logs in with no credentials with no existing access token in localStorage', async () => {
+    jest.mock('axios')
+    axios.post = jest.fn()
+      .mockResolvedValue({
+        data: {
+          success: true
+        }
+      })
+      .mockResolvedValueOnce({
+        data: {
+          error: 'Invalid token'
+        }
+      })
+
+    const mockRefreshToken = 'my-refresh-token'
+    localStorage.setItem('refreshToken', mockRefreshToken)
+
+    render(<Login />)
+    const submit = screen.getByTestId('test-submit-button')
+
+    await userEvent.click(submit)
+
+    expect(axios.post).toHaveBeenCalledTimes(2)
+    expect(axios.post).toHaveBeenNthCalledWith(
+      1,
+      '/api/refresh_token',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${mockRefreshToken}`
         }
       }
     )
