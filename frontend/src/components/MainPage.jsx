@@ -21,9 +21,13 @@ class MainPage extends React.Component {
           className="w3-container w3-jumbo"
           style={{ margin: '3rem', paddingLeft: '1rem' }}>
           <h1>Posts</h1>
-          <button className="w3-button w3-blue w3-large" onClick= { () => {
-            document.getElementById('addPost').style.display = 'block'
-          }}>Add Post</button>
+          <button
+            className="w3-button w3-blue w3-large"
+            data-testid="test-add-post-button"
+            onClick= { () => {
+              document.getElementById('addPost').style.display = 'block'
+            }
+          }>Add Post</button>
         </div>
         <AddPost />
         <div className="w3-container" data-testid="test-posts-list">
