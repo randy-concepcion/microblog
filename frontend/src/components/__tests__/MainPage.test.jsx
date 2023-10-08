@@ -36,7 +36,7 @@ describe('User interacts with MainPage component to display content', () => {
 
     // Modal content
     expect(await screen.getByTestId('test-modal-add-post')).toBeInTheDocument()
-    expect(await screen.getByTestId('test-modal-add-post-button')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-modal-form-add-post-button')).toBeInTheDocument()
     expect(await screen.getByTestId('test-modal-add-post-form')).toBeInTheDocument()
   })
 

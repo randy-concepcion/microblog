@@ -1,4 +1,5 @@
 // src/components/AddPost.jsx
+import { Editor } from '@tinymce/tinymce-react/lib/cjs/main/ts'
 
 function AddPost () {
   return (
@@ -12,9 +13,34 @@ function AddPost () {
         </header>
         <form className="w3-container" data-testid="test-modal-add-post-form">
           <div className="w3-section">
-            <label htmlFor="title">Title</label>
-            <input type="text" id="title" className="w3-input w3-border w3-margin-bottom" />
-            <textarea cols="30" rows="10" />
+            <p>
+              <label htmlFor="title">Title</label>
+              <input type="text" id="title" className="w3-input w3-border w3-margin-bottom" />
+            </p>
+            <Editor
+              data-testid="test-modal-editor-text-area"
+              init={
+                {
+                  height: 300,
+                  menubar: false,
+                  statusbar: false,
+                  toolbar_mode: 'sliding',
+                  plugins: [
+                    'advlist autolink lists link image imagetools media emoticons preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                  ],
+                  toolbar:
+                    `undo redo | formatselect | bold italic underline strikethrough | image anchor media |
+                    alignleft aligncenter alignright alignjustify |
+                    outdent indent | bulllist numlist | fullscreen preview | emoticons help`,
+                  contextmenu: 'bold italic underline indent outdent help'
+                }
+              }
+            />
+            <p>
+              <button type="submit" className="w3-button w3-blue" data-testid="test-modal-form-add-post-button">Post</button>
+            </p>
           </div>
         </form>
       </div>
