@@ -1,5 +1,5 @@
 // src/components/AddPost.jsx
-import { Editor } from '@tinymce/tinymce-react/lib/cjs/main/ts'
+import { Editor } from '@tinymce/tinymce-react'
 
 function AddPost () {
   return (
@@ -19,6 +19,7 @@ function AddPost () {
             </p>
             <Editor
               data-testid="test-modal-editor-text-area"
+              tinymceScriptSrc="../../node_modules/tinymce/tinymce.min.js"
               init={
                 {
                   height: 300,
@@ -26,9 +27,9 @@ function AddPost () {
                   statusbar: false,
                   toolbar_mode: 'sliding',
                   plugins: [
-                    'advlist autolink lists link image imagetools media emoticons preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount'
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'media', 'emoticons', 'preview', 'anchor',
+                    'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
                   ],
                   toolbar:
                     `undo redo | formatselect | bold italic underline strikethrough | image anchor media |
