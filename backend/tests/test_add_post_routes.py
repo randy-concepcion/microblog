@@ -10,7 +10,7 @@ class TestAddPostEndpointPost:
         self.test_client = test_client
         self.init_db = init_database
 
-        jwt_token = create_access_token("test-user")
+        jwt_token = create_access_token(1)
         self.header = {"Authorization": f"Bearer {jwt_token}"}
 
     def test_no_jwt_token_raises_auth_error(self):
