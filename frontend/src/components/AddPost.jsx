@@ -6,6 +6,8 @@ import { Editor } from '@tinymce/tinymce-react'
 class AddPost extends React.Component {
   state = { content: '' }
 
+  // NOTE: This line is ignored for tests since TinyMCE does not get rendered to trigger this method
+  /* istanbul ignore next */
   handleEditorChange = (content, editor) => {
     this.setState({ content })
   }
@@ -42,12 +44,14 @@ class AddPost extends React.Component {
             <div className="w3-section">
               <p>
                 <label htmlFor="title">Title</label>
-                <input type="text" id="title" className="w3-input w3-border w3-margin-bottom" />
+                <input type="text" id="title" className="w3-input w3-border w3-margin-bottom" data-testid="test-modal-title-textfield" />
               </p>
               <Editor
-                tinymceScriptSrc="../../node_modules/tinymce/tinymce.min.js"
-                data-testid="test-modal-editor-text-area"
+                id="tinymce-editor"
+                value={ this.state.content }
+                onEditorChange={ this.handleEditorChange }
                 initalValue="<p>Enter text to post</p>"
+                tinymceScriptSrc="../../node_modules/tinymce/tinymce.min.js"
                 init={
                   {
                     height: 300,
@@ -66,7 +70,6 @@ class AddPost extends React.Component {
                     contextmenu: 'bold italic underline indent outdent help'
                   }
                 }
-                onEditorChange={ this.handleEditorChange }
               />
               <p>
                 <button type="submit" className="w3-button w3-blue" data-testid="test-modal-form-add-post-button">Post</button>
