@@ -62,11 +62,17 @@ describe('User interacts with Login component', () => {
     axios.get.mockResolvedValueOnce(
       {
         data: [
+          [
+            {
+              id: '1',
+              title: 'test title',
+              content: 'test content',
+              user: '1'
+            }
+          ],
+          200,
           {
-            id: '1',
-            title: 'test title',
-            content: 'test content',
-            user: '1'
+            'Content-Type': 'application/json'
           }
         ]
       }

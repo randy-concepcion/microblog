@@ -12,7 +12,9 @@ describe('User interacts with MainPage component to display content', () => {
   test('When user does not see any posts displayed', async () => {
     const mockAxios = jest.spyOn(axios, 'get')
     mockAxios.mockResolvedValueOnce({
-      data: []
+      data: [
+        []
+      ]
     })
 
     await act(async () => render(<MainPage />))
@@ -26,7 +28,15 @@ describe('User interacts with MainPage component to display content', () => {
   test('Modal is displayed when user clicks on Add Post button', async () => {
     const mockAxios = jest.spyOn(axios, 'get')
     mockAxios.mockResolvedValueOnce({
-      data: []
+      data: [
+        [
+          {},
+          200,
+          {
+            'Content-Type': 'application/json'
+          }
+        ]
+      ]
     })
 
     await act(async () => render(<MainPage />))
@@ -36,7 +46,7 @@ describe('User interacts with MainPage component to display content', () => {
 
     // Modal content
     expect(await screen.getByTestId('test-modal-add-post')).toBeInTheDocument()
-    expect(await screen.getByTestId('test-modal-add-post-button')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-modal-form-add-post-button')).toBeInTheDocument()
     expect(await screen.getByTestId('test-modal-add-post-form')).toBeInTheDocument()
   })
 
@@ -46,12 +56,18 @@ describe('User interacts with MainPage component to display content', () => {
     const mockAxios = jest.spyOn(axios, 'get')
     mockAxios.mockResolvedValueOnce({
       data: [
-        {
-          id: 1,
-          title: testTitle,
-          content: testContent,
-          user: 1
-        }
+        [
+          {
+            id: 1,
+            title: testTitle,
+            content: testContent,
+            user: 1
+          },
+          200,
+          {
+            'Content-Type': 'application/json'
+          }
+        ]
       ]
     })
 

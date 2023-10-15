@@ -4,7 +4,10 @@ from flask import (
     jsonify,
     request,
 )
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import (
+    get_jwt_identity,
+    jwt_required,
+)
 
 
 @add_post_blueprint.route("/api/add_post", methods=["POST"])
@@ -15,7 +18,7 @@ def add_post():
     try:
         title = request.json["title"]
         content = request.json["content"]
-        uid = request.json["uid"]
+        uid = get_jwt_identity()
 
         utils_add_post(title, content, uid)
 

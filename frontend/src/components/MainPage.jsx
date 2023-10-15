@@ -9,7 +9,7 @@ class MainPage extends React.Component {
 
   componentDidMount () {
     axios.get('/api/posts').then(response => {
-      this.setState({ posts: response.data })
+      this.setState({ posts: response.data[0].reverse() })
     })
   }
 
