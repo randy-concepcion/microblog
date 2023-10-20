@@ -12,7 +12,11 @@ function PostItem (props) {
         style={{ padding: '2rem' }}>
           <h2 className="w3-xxlarge">
             <span className="w3-opacity" data-testid="test-post-title">{props.title}</span>
-            <button className="w3-right w3-button w3-red w3-large w3-hover-pale-red w3-round-large">Delete</button>
+            { props.isOwner &&
+              <button className="w3-right w3-button w3-red w3-large w3-hover-pale-red w3-round-large">
+                Delete
+              </button>
+            }
           </h2>
         <div data-testid="test-post-content" dangerouslySetInnerHTML={{ __html: props.content }} />
       </div>
@@ -32,7 +36,8 @@ function PostItem (props) {
 PostItem.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
-  author: PropTypes.string
+  author: PropTypes.string,
+  isOwner: PropTypes.bool
 }
 
 export default PostItem

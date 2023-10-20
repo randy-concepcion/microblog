@@ -5,12 +5,25 @@ import PostItem from './PostItem'
 import axios from 'axios'
 
 class MainPage extends React.Component {
-  state = { posts: [] }
+  state = {
+    posts: [],
+    currentUser: { username: '' }
+  }
 
   componentDidMount () {
     axios.get('/api/posts').then(response => {
       this.setState({ posts: response.data[0].reverse() })
     })
+
+    setTimeout(() => {
+      axios.get('/api/get_current_user', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }).then(response => {
+        this.setState({ currentUser: response.data[0] })
+      })
+    }, 500)
   }
 
   render () {
@@ -32,12 +45,15 @@ class MainPage extends React.Component {
         <AddPost />
         <div className="w3-container" data-testid="test-posts-list">
           { this.state.posts.length === 0
-            ? <p className="w3-xlarge 23-opacity" style={{ marginLeft: '2rem' }}> No posts! Create one</p>
+            ? <p className="w3-xlarge w3-opacity" style={{ marginLeft: '2rem' }}> No posts! Create one</p>
             : this.state.posts.map((item, index) => {
               return (
                 <PostItem
+                  id={ item.id }
                   title={ item.title }
                   content={ item.content }
+                  author={ item.user.username}
+                  isOwner={ this.state.currentUser.username === item.user.username }
                   key={ index }
                 />
               )
