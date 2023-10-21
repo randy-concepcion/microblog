@@ -21,6 +21,8 @@ class AddPost extends React.Component {
   submitForm = (e) => {
     e.preventDefault()
 
+    // NOTE: This line is ignored for tests since the content of TinyMCE does not get updated (see NOTE above)
+    /* istanbul ignore next */
     if (this.state.content.length === 0) {
       this.setState({
         contentError: 'Please enter a message to post'
@@ -76,7 +78,7 @@ class AddPost extends React.Component {
               <p>
                 <label htmlFor="title">Title</label>
                 <input type="text" id="title" className="w3-input w3-border w3-margin-bottom" data-testid="test-modal-title-textfield" />
-                <small className="w3-text-gray">{ this.state.titleError }</small>
+                <small data-testid="test-title-error" className="w3-text-gray">{ this.state.titleError }</small>
               </p>
               <p>
                 <Editor
@@ -104,7 +106,7 @@ class AddPost extends React.Component {
                     }
                   }
                 />
-                <small className="w3-text-gray">{ this.state.contentError }</small>
+                <small data-testid="test-content-error" className="w3-text-gray">{ this.state.contentError }</small>
               </p>
               <p>
                 <button type="submit" className="w3-button w3-blue" data-testid="test-modal-form-add-post-button">Post</button>
