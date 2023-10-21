@@ -1,5 +1,17 @@
 // src/components/PostItem.jsx
+import axios from 'axios'
 import PropTypes from 'prop-types'
+
+function deletePost (postId) {
+  axios.delete('/api/delete_post/' + postId, {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    }
+  }).then(response => {
+    console.log(response.data)
+    window.location.reload()
+  })
+}
 
 function PostItem (props) {
   return (
@@ -15,6 +27,7 @@ function PostItem (props) {
             { props.isOwner &&
               <button
                 className="w3-right w3-button w3-red w3-large w3-hover-pale-red w3-round-large"
+                onClick={ () => deletePost(props.id) }
                 data-testid="test-delete-button"
               >
                 Delete
@@ -37,6 +50,7 @@ function PostItem (props) {
 }
 
 PostItem.propTypes = {
+  id: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
   author: PropTypes.string,

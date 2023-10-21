@@ -54,7 +54,7 @@ describe('User interacts with MainPage component to display content', () => {
       data: [
         [
           {
-            id: 1,
+            id: '1',
             title: testTitle,
             content: testContent,
             user: {
@@ -99,7 +99,7 @@ describe('User interacts with MainPage component to display content', () => {
       data: [
         [
           {
-            id: 1,
+            id: '1',
             title: testTitle,
             content: testContent,
             user: {
