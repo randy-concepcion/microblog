@@ -13,7 +13,10 @@ function PostItem (props) {
           <h2 className="w3-xxlarge">
             <span className="w3-opacity" data-testid="test-post-title">{props.title}</span>
             { props.isOwner &&
-              <button className="w3-right w3-button w3-red w3-large w3-hover-pale-red w3-round-large">
+              <button
+                className="w3-right w3-button w3-red w3-large w3-hover-pale-red w3-round-large"
+                data-testid="test-delete-button"
+              >
                 Delete
               </button>
             }
