@@ -14,7 +14,7 @@ class TestDeletePostEndpointDelete:
         self.header = {"Authorization": f"Bearer {jwt_token}"}
 
     def test_no_jwt_token_raises_auth_error(self):
-        delete_json = {"post_id": 1}
+        delete_json = {"post_id": "1"}
 
         response = self.test_client.delete(
             self.endpoint,
@@ -44,7 +44,7 @@ class TestDeletePostEndpointDelete:
         mock_delete_post.assert_not_called()
 
     def test_valid_post_data_returns_true(self):
-        delete_json = {"post_id": 1}
+        delete_json = {"post_id": "1"}
 
         response = self.test_client.delete(
             self.endpoint,
