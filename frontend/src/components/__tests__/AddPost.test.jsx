@@ -12,7 +12,8 @@ describe('User interacts with the AddPost modal window', () => {
 
   test('User adds a new post and modal is no longer displayed', async () => {
     const typeTitleText = 'Typed text title'
-    const typeContentText = '' // For now, this will be blank. See NOTE below for more details
+    // const typeContentText = '' // For now, this will be blank. See NOTE below for more details
+    const defaultContentText = '<p>Please edit your post</p>'
     const mockToken = 'mock-auth-token'
 
     localStorage.setItem('token', mockToken)
@@ -53,7 +54,7 @@ describe('User interacts with the AddPost modal window', () => {
       '/api/add_post',
       {
         title: typeTitleText,
-        content: typeContentText
+        content: defaultContentText
       },
       {
         headers: {
@@ -100,6 +101,63 @@ describe('User interacts with the AddPost modal window', () => {
     const modalPostBtn = screen.getByTestId('test-modal-form-add-post-button')
     await userEvent.click(modalPostBtn)
 
+    expect(await screen.getByTestId('test-alert-msg')).toBeInTheDocument()
     expect(window.location.reload).not.toHaveBeenCalled()
+  })
+
+  test('Error message is displayed when users posts blank title', async () => {
+    axios.post = jest.fn()
+
+    render(<AddPost />)
+    const addPostBtn = screen.getByTestId('test-modal-add-post-button')
+    await userEvent.click(addPostBtn)
+
+    expect(await screen.getByTestId('test-modal-add-post')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-modal-add-post')).toHaveTextContent('Add Post')
+    expect(await screen.getByTestId('test-modal-add-post')).toHaveStyle('display:none')
+    expect(await screen.getByTestId('test-modal-add-post-form')).toBeInTheDocument()
+
+    const modalPostBtn = screen.getByTestId('test-modal-form-add-post-button')
+    await userEvent.click(modalPostBtn)
+
+    expect(await screen.queryByTestId('test-form-error')).not.toBeInTheDocument()
+    expect(await screen.getByTestId('test-title-error').textContent).not.toBeUndefined()
+    expect(await screen.getByTestId('test-content-error').textContent).not.toBeUndefined()
+    expect(window.location.reload).not.toHaveBeenCalled()
+    expect(axios.post).not.toHaveBeenCalled()
+  })
+
+  // NOTE: This test is skipped because we are unable to modify the content of TinyMCE textarea
+  // since TinyMCE is not supported to test in the jsdom test environment. However, this is how
+  // it should be tested. The block of code in AddPost.jsx contains "istanbul ignore next" which
+  // should be removed when this test case is not skipped.
+  test.skip('Error message is displayed when users posts blank content', async () => {
+    const typeTitleText = 'Typed text title'
+    const typeContentText = ''
+    axios.post = jest.fn()
+
+    render(<AddPost />)
+    const addPostBtn = screen.getByTestId('test-modal-add-post-button')
+    await userEvent.click(addPostBtn)
+
+    expect(await screen.getByTestId('test-modal-add-post')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-modal-add-post')).toHaveTextContent('Add Post')
+    expect(await screen.getByTestId('test-modal-add-post')).toHaveStyle('display:none')
+    expect(await screen.getByTestId('test-modal-add-post-form')).toBeInTheDocument()
+
+    const modalTitleField = screen.getByTestId('test-modal-title-textfield')
+    await userEvent.type(modalTitleField, typeTitleText)
+
+    const modalTextArea = document.querySelector('#tinymce-editor')
+    await userEvent.type(modalTextArea, typeContentText)
+
+    const modalPostBtn = screen.getByTestId('test-modal-form-add-post-button')
+    await userEvent.click(modalPostBtn)
+
+    expect(await screen.queryByTestId('test-form-error')).not.toBeInTheDocument()
+    expect(await screen.getByTestId('test-title-error').textContent).toBeUndefined()
+    expect(await screen.getByTestId('test-content-error').textContent).toBeUndefined()
+    expect(window.location.reload).not.toHaveBeenCalled()
+    expect(axios.post).not.toHaveBeenCalled()
   })
 })

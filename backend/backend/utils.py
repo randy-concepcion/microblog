@@ -27,7 +27,7 @@ def add_post(title: str, content: str, uid: str) -> bool:
     return False
 
 
-def delete_post(post_id: int) -> bool:
+def delete_post(post_id: str) -> bool:
     if post_id:
         try:
             post = db.session.get(Post, post_id)

@@ -2,9 +2,15 @@
 import axios from 'axios'
 import React from 'react'
 import { Editor } from '@tinymce/tinymce-react'
+import Alert from './Alert'
 
 class AddPost extends React.Component {
-  state = { content: '' }
+  state = {
+    content: '<p>Please edit your post</p>',
+    titleError: '',
+    contentError: '',
+    formError: ''
+  }
 
   // NOTE: This line is ignored for tests since TinyMCE does not get rendered to trigger this method
   /* istanbul ignore next */
@@ -14,6 +20,25 @@ class AddPost extends React.Component {
 
   submitForm = (e) => {
     e.preventDefault()
+
+    // NOTE: This line is ignored for tests since the content of TinyMCE does not get updated (see NOTE above)
+    /* istanbul ignore next */
+    if (this.state.content.length === 0) {
+      this.setState({
+        contentError: 'Please enter a message to post'
+      })
+
+      return
+    }
+
+    if (document.getElementById('title').value.length === 0) {
+      this.setState({
+        titleError: 'Please enter a title'
+      })
+
+      return
+    }
+
     axios.post('/api/add_post', {
       title: document.getElementById('title').value,
       content: this.state.content
@@ -22,10 +47,14 @@ class AddPost extends React.Component {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
-    }).then(res => {
-      console.log(res.data.success)
-      if (res.data.success) {
+    }).then(response => {
+      console.log(response.data.success)
+      if (response.data.success) {
         window.location.reload()
+      } else {
+        this.setState({
+          formError: response.data.error
+        })
       }
     })
   }
@@ -41,36 +70,44 @@ class AddPost extends React.Component {
             <h2>Add Post</h2>
           </header>
           <form className="w3-container" data-testid="test-modal-add-post-form" onSubmit={this.submitForm}>
+            {
+              this.state.formError.length > 0 &&
+              <Alert message = { this.state.formError } />
+            }
             <div className="w3-section">
               <p>
                 <label htmlFor="title">Title</label>
                 <input type="text" id="title" className="w3-input w3-border w3-margin-bottom" data-testid="test-modal-title-textfield" />
+                <small data-testid="test-title-error" className="w3-text-gray">{ this.state.titleError }</small>
               </p>
-              <Editor
-                id="tinymce-editor"
-                value={ this.state.content }
-                onEditorChange={ this.handleEditorChange }
-                initalValue="<p>Enter text to post</p>"
-                tinymceScriptSrc="../../node_modules/tinymce/tinymce.min.js"
-                init={
-                  {
-                    height: 300,
-                    menubar: false,
-                    statusbar: false,
-                    toolbar_mode: 'sliding',
-                    plugins: [
-                      'advlist', 'autolink', 'lists', 'link', 'image', 'media', 'emoticons', 'preview', 'anchor',
-                      'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                      'insertdatetime', 'media', 'table', 'help', 'wordcount'
-                    ],
-                    toolbar:
-                      `undo redo | formatselect | bold italic underline strikethrough | image anchor media |
-                      alignleft aligncenter alignright alignjustify |
-                      outdent indent | bulllist numlist | fullscreen preview | emoticons help`,
-                    contextmenu: 'bold italic underline indent outdent help'
+              <p>
+                <Editor
+                  id="tinymce-editor"
+                  value={ this.state.content }
+                  onEditorChange={ this.handleEditorChange }
+                  initalValue="<p>Enter text to post</p>"
+                  tinymceScriptSrc="../../node_modules/tinymce/tinymce.min.js"
+                  init={
+                    {
+                      height: 300,
+                      menubar: false,
+                      statusbar: false,
+                      toolbar_mode: 'sliding',
+                      plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'image', 'media', 'emoticons', 'preview', 'anchor',
+                        'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                        'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                      ],
+                      toolbar:
+                        `undo redo | formatselect | bold italic underline strikethrough | image anchor media |
+                        alignleft aligncenter alignright alignjustify |
+                        outdent indent | bulllist numlist | fullscreen preview | emoticons help`,
+                      contextmenu: 'bold italic underline indent outdent help'
+                    }
                   }
-                }
-              />
+                />
+                <small data-testid="test-content-error" className="w3-text-gray">{ this.state.contentError }</small>
+              </p>
               <p>
                 <button type="submit" className="w3-button w3-blue" data-testid="test-modal-form-add-post-button">Post</button>
               </p>
