@@ -21,7 +21,7 @@ class UserSettings extends React.Component {
     axios.post('/api/change_password',
       {
         password: document.getElementById('password').value,
-        newPassword: document.getElementById('new-password').value
+        newPassword: document.getElementById('npassword').value
       },
       {
         headers: {
