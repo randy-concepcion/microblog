@@ -83,6 +83,7 @@ class UserSettings extends React.Component {
                     onClick={ () => this.setState({ currentSetting: 'cpwd' }) }
                     style={{ cursor: 'pointer' }}
                     className="w3-hover-light-gray"
+                    data-testid='test-change-password'
                   >
                   Change password
                   </li>
@@ -102,6 +103,7 @@ class UserSettings extends React.Component {
                 <h1 className="w3-xxlarge">Change password</h1>
                 <hr className="w3-border-top w3-border-black" />
                 <button
+                  data-testid='test-back-button'
                   className="w3-button w3-blue"
                   onClick={ () => this.setState({ currentSetting: 'main' }) }
                 >
@@ -110,14 +112,30 @@ class UserSettings extends React.Component {
                 <form onSubmit={ this.changePassword }>
                   <p>
                     <label htmlFor="password">Old password</label>
-                    <input type="password" id="password" className="w3-input w3-border" />
+                    <input
+                      type="password"
+                      id="password"
+                      className="w3-input w3-border"
+                      data-testid="test-old-password"
+                    />
                   </p>
                   <p>
                     <label htmlFor="npassword">New password</label>
-                    <input type="password" id="npassword" className="w3-input w3-border" />
+                    <input
+                      type="password"
+                      id="npassword"
+                      className="w3-input w3-border"
+                      data-testid="test-new-password"
+                    />
                   </p>
                   <p>
-                    <button type="submit" className="w3-button w3-blue">Submit</button>
+                    <button
+                      type="submit"
+                      className="w3-button w3-blue"
+                      data-testid="test-submit-button"
+                    >
+                    Submit
+                    </button>
                   </p>
                 </form>
               </div>
