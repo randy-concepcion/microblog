@@ -61,6 +61,10 @@ class UserSettings extends React.Component {
     }
   }
 
+  handleClick = (setting) => {
+    this.setState({ currentSetting: setting })
+  }
+
   render () {
     return (
       <div className="w3-container" style={{ margin: '3rem' }}>
@@ -80,7 +84,8 @@ class UserSettings extends React.Component {
                 <p>Choose a setting from below:</p>
                 <ul className="w3-ul w3-border w3-hoverable">
                   <li
-                    onClick={ () => this.setState({ currentSetting: 'cpwd' }) }
+                    onClick={ () => { this.handleClick('cpwd') } }
+                    onKeyDown={ () => { this.handleClick('cpwd') } }
                     style={{ cursor: 'pointer' }}
                     className="w3-hover-light-gray"
                     data-testid='test-change-password'
@@ -88,7 +93,8 @@ class UserSettings extends React.Component {
                   Change password
                   </li>
                   <li
-                    onClick={ () => this.setState({ currentSetting: 'del' }) }
+                    onClick={ () => { this.handleClick('del') } }
+                    onKeyDown={ () => { this.handleClick('cpwd') } }
                     style={{ cursor: 'pointer' }}
                     className="w3-text-red w3-hover-pale-red w3-hover-text-red"
                     data-testid='test-delete-account'
@@ -106,7 +112,7 @@ class UserSettings extends React.Component {
                 <button
                   data-testid='test-back-button'
                   className="w3-button w3-blue"
-                  onClick={ () => this.setState({ currentSetting: 'main' }) }
+                  onClick={ () => { this.handleClick('main') } }
                 >
                 &laquo; Back
                 </button>
@@ -149,7 +155,7 @@ class UserSettings extends React.Component {
                 <button
                   className="w3-button w3-blue"
                   data-testid="test-back-button"
-                  onClick={ () => this.setState({ currentSetting: 'main' }) }
+                  onClick={ () => { this.handleClick('main') } }
                 >
                 &laquo; Back
                 </button>
