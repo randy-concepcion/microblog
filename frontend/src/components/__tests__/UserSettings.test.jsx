@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import axios from 'axios'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
@@ -88,6 +88,20 @@ describe('UserSettings: User attempts to change password', () => {
 
     expect(await screen.getByTestId('test-change-password')).toBeInTheDocument()
     expect(await screen.getByTestId('test-delete-account')).toBeInTheDocument()
+  })
+
+  test('(a11y) User uses keyboard to access change password form', async () => {
+    const mockToken = 'mock-auth-token'
+
+    localStorage.setItem('token', mockToken)
+
+    render(<UserSettings />)
+    const changePassword = screen.getByTestId('test-change-password')
+    await fireEvent.keyDown(changePassword, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+    expect(await screen.getByTestId('test-old-password')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-new-password')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-submit-button')).toBeInTheDocument()
   })
 })
 
@@ -182,5 +196,17 @@ describe('UserSettings: User attempts to delete account', () => {
     await userEvent.click(deleteAccountBtn)
 
     expect(axios.delete).not.toHaveBeenCalled()
+  })
+
+  test('(a11y) User uses keyboard to access account deletion', async () => {
+    const mockToken = 'mock-auth-token'
+
+    localStorage.setItem('token', mockToken)
+
+    render(<UserSettings />)
+    const deleteAccount = screen.getByTestId('test-delete-account')
+    await fireEvent.keyDown(deleteAccount, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+    expect(await screen.getByTestId('test-delete-account-button')).toBeInTheDocument()
   })
 })

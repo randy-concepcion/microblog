@@ -94,7 +94,7 @@ class UserSettings extends React.Component {
                   </li>
                   <li
                     onClick={ () => { this.handleClick('del') } }
-                    onKeyDown={ () => { this.handleClick('cpwd') } }
+                    onKeyDown={ () => { this.handleClick('del') } }
                     style={{ cursor: 'pointer' }}
                     className="w3-text-red w3-hover-pale-red w3-hover-text-red"
                     data-testid='test-delete-account'
