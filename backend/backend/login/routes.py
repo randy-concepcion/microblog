@@ -1,4 +1,5 @@
 from . import login_blueprint
+from backend.constants import JSON_MIMETYPE
 from backend.utils import get_users
 from flask import (
     jsonify,
@@ -12,8 +13,6 @@ from flask_jwt_extended import (
 
 @login_blueprint.route("/api/login", methods=["POST"])
 def login():
-    json_mimetype = {"Content-Type": "application/json"}
-
     try:
         email = request.json["email"]
         password = request.json["pwd"]
@@ -31,10 +30,10 @@ def login():
                 return (
                     jsonify({"token": jwt_token, "refreshToken": refresh_token}),
                     200,
-                    json_mimetype,
+                    JSON_MIMETYPE,
                 )
 
-        return (jsonify({"error": "Invalid credentials"}), 200, json_mimetype)
+        return (jsonify({"error": "Invalid credentials"}), 200, JSON_MIMETYPE)
 
     except Exception as err:
-        return (jsonify({"error": str(err)}), 400, json_mimetype)
+        return (jsonify({"error": str(err)}), 400, JSON_MIMETYPE)
