@@ -4,15 +4,22 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import UserSettings from '../UserSettings'
 
-describe('UserSettings: User attempts to change password', () => {
+describe('UserSettings: no token is stored in localStorage', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     delete window.location
   })
 
-  test('User returns to login page when no token is stored', () => {
+  test('User returns to login page', () => {
     render(<UserSettings />)
     expect(window.location).toBe('/login')
+  })
+})
+
+describe('UserSettings: User attempts to change password', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    delete window.location
   })
 
   test('User encounters an error when changing password', async () => {
@@ -65,5 +72,60 @@ describe('UserSettings: User attempts to change password', () => {
     await userEvent.click(submitButton)
 
     expect(window.location).toBe('/logout')
+  })
+
+  test('User clicks back button to return to main page', async () => {
+    const mockToken = 'mock-auth-token'
+
+    localStorage.setItem('token', mockToken)
+
+    axios.post = jest.fn()
+    axios.post.mockResolvedValueOnce({
+      data: {
+        error: 'Error: Unable to change password'
+      }
+    })
+
+    render(<UserSettings />)
+    const changePassword = screen.getByTestId('test-change-password')
+    await userEvent.click(changePassword)
+
+    const backBtn = screen.getByTestId('test-back-button')
+    await userEvent.click(backBtn)
+
+    expect(await screen.getByTestId('test-change-password')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-delete-account')).toBeInTheDocument()
+  })
+})
+
+describe('UserSettings: User attempts to delete account', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    delete window.location
+  })
+
+  test('User encounters an error when deleting account', async () => {
+    const mockToken = 'mock-auth-token'
+
+    localStorage.setItem('token', mockToken)
+
+    axios.delete = jest.fn()
+    axios.delete.mockResolvedValueOnce({
+      data: {
+        error: 'Error: Unable to delete account'
+      }
+    })
+
+    window.alert = jest.fn()
+    window.confirm = jest.fn(() => true)
+
+    render(<UserSettings />)
+    const deleteAccount = screen.getByTestId('test-delete-account')
+    await userEvent.click(deleteAccount)
+
+    const deleteAccountBtn = screen.getByTestId('test-delete-account-button')
+    await userEvent.click(deleteAccountBtn)
+
+    expect(window.alert).toHaveBeenCalled()
   })
 })

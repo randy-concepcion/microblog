@@ -91,6 +91,7 @@ class UserSettings extends React.Component {
                     onClick={ () => this.setState({ currentSetting: 'del' }) }
                     style={{ cursor: 'pointer' }}
                     className="w3-text-red w3-hover-pale-red w3-hover-text-red"
+                    data-testid='test-delete-account'
                   >
                   Delete account
                   </li>
@@ -147,12 +148,19 @@ class UserSettings extends React.Component {
                 <hr className="w3-border-top w3-border-black" />
                 <button
                   className="w3-button w3-blue"
+                  data-testid="test-back-button"
                   onClick={ () => this.setState({ currentSetting: 'main' }) }
                 >
                 &laquo; Back
                 </button>
                 <p>
-                  <button className="w3-button w3-red w3-large" onClick={ this.deleteAccount }>DELETE ACCOUNT</button>
+                  <button
+                    className="w3-button w3-red w3-large"
+                    data-testid="test-delete-account-button"
+                    onClick={ this.deleteAccount }
+                  >
+                  DELETE ACCOUNT
+                  </button>
                 </p>
               </div>
             }
