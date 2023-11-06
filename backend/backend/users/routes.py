@@ -10,43 +10,49 @@ from backend.utils import (
 )
 
 
-@users_blueprint.route("/api/users", methods=["GET", "POST", "DELETE"])
-def users():
+@users_blueprint.route("/api/users", methods=["GET"])
+def users_get():
     json_mimetype = {"Content-Type": "application/json"}
-    method = request.method
 
-    if method.lower() == "get":
-        result = get_users()
-        return (jsonify(result), 200, json_mimetype)
+    result = get_users()
+    return (jsonify(result), 200, json_mimetype)
 
-    elif method.lower() == "post":
-        try:
-            username = request.json["username"]
-            email = request.json["email"]
-            pwd = request.json["pwd"]
 
-            success = add_user(username, email, pwd)
+@users_blueprint.route("/api/users", methods=["POST"])
+def users_post():
+    json_mimetype = {"Content-Type": "application/json"}
 
-            if success:
-                return (jsonify({"success": True}), 200, json_mimetype)
+    try:
+        username = request.json["username"]
+        email = request.json["email"]
+        pwd = request.json["pwd"]
 
-            else:
-                return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
+        success = add_user(username, email, pwd)
 
-        except Exception as err:
-            return (jsonify({"error": repr(err)}), 400, json_mimetype)
+        if success:
+            return (jsonify({"success": True}), 200, json_mimetype)
 
-    elif method.lower() == "delete":
-        try:
-            uid = request.json["id"]
+        else:
+            return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
 
-            success = remove_user(uid)
+    except Exception as err:
+        return (jsonify({"error": repr(err)}), 400, json_mimetype)
 
-            if success:
-                return jsonify({"success": True})
 
-            else:
-                return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
+@users_blueprint.route("/api/users", methods=["DELETE"])
+def users_delete():
+    json_mimetype = {"Content-Type": "application/json"}
 
-        except Exception as err:
-            return (jsonify({"error": repr(err)}), 400, json_mimetype)
+    try:
+        uid = request.json["id"]
+
+        success = remove_user(uid)
+
+        if success:
+            return jsonify({"success": True})
+
+        else:
+            return (jsonify({"error": "Invalid form"}), 400, json_mimetype)
+
+    except Exception as err:
+        return (jsonify({"error": repr(err)}), 400, json_mimetype)
