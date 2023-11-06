@@ -1,4 +1,5 @@
 from . import add_post_blueprint
+from backend.constants import JSON_MIMETYPE
 from backend.utils import add_post as utils_add_post
 from flask import (
     jsonify,
@@ -13,8 +14,6 @@ from flask_jwt_extended import (
 @add_post_blueprint.route("/api/add_post", methods=["POST"])
 @jwt_required()
 def add_post():
-    json_mimetype = {"Content-Type": "application/json"}
-
     try:
         title = request.json["title"]
         content = request.json["content"]
@@ -22,7 +21,7 @@ def add_post():
 
         utils_add_post(title, content, uid)
 
-        return (jsonify({"success": "true"}), 200, json_mimetype)
+        return (jsonify({"success": "true"}), 200, JSON_MIMETYPE)
 
     except Exception as err:
-        return (jsonify({"error": str(err)}), 400, json_mimetype)
+        return (jsonify({"error": str(err)}), 400, JSON_MIMETYPE)
