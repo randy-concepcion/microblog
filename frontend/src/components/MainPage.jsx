@@ -46,7 +46,7 @@ class MainPage extends React.Component {
         <div className="w3-container" data-testid="test-posts-list">
           { this.state.posts.length === 0
             ? <p className="w3-xlarge w3-opacity" style={{ marginLeft: '2rem' }}> No posts! Create one</p>
-            : this.state.posts.map((item, index) => {
+            : this.state.posts.map((item) => {
               return (
                 <PostItem
                   id={ item.id }
@@ -54,7 +54,7 @@ class MainPage extends React.Component {
                   content={ item.content }
                   author={ item.user.username}
                   isOwner={ this.state.currentUser.username === item.user.username }
-                  key={ index }
+                  key={ item.id }
                 />
               )
             }
