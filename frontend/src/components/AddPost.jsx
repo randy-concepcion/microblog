@@ -59,14 +59,23 @@ class AddPost extends React.Component {
     })
   }
 
+  handleClick = () => {
+    document.getElementById('addPost').style.display = 'none'
+  }
+
   render () {
     return (
       <div className="w3-modal w3-animate-opacity" id="addPost" data-testid="test-modal-add-post">
         <div className="w3-modal-content w3-card">
           <header className="w3-container w3-blue">
-            <span className="w3-button w3-display-topright w3-hover-none w3-hover-text-white" data-testid="test-modal-add-post-button" onClick={ () => {
-              document.getElementById('addPost').style.display = 'none'
-            }}>X</span>
+            <span
+              className="w3-button w3-display-topright w3-hover-none w3-hover-text-white"
+              data-testid="test-modal-add-post-button"
+              onClick={ () => { this.handleClick() } }
+              onKeyDown={ () => { this.handleClick() } }
+              >
+              X
+              </span>
             <h2>Add Post</h2>
           </header>
           <form className="w3-container" data-testid="test-modal-add-post-form" onSubmit={this.submitForm}>

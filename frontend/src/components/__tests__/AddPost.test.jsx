@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import AddPost from '../AddPost'
@@ -125,6 +125,19 @@ describe('User interacts with the AddPost modal window', () => {
     expect(await screen.getByTestId('test-content-error').textContent).not.toBeUndefined()
     expect(window.location.reload).not.toHaveBeenCalled()
     expect(axios.post).not.toHaveBeenCalled()
+  })
+
+  test('(a11y) Modal is displayed when key is pressed for add post button', async () => {
+    axios.post = jest.fn()
+
+    render(<AddPost />)
+    const addPostBtn = screen.getByTestId('test-modal-add-post-button')
+    await fireEvent.keyDown(addPostBtn, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+    expect(await screen.getByTestId('test-modal-add-post')).toBeInTheDocument()
+    expect(await screen.getByTestId('test-modal-add-post')).toHaveTextContent('Add Post')
+    expect(await screen.getByTestId('test-modal-add-post')).toHaveStyle('display:none')
+    expect(await screen.getByTestId('test-modal-add-post-form')).toBeInTheDocument()
   })
 
   // NOTE: This test is skipped because we are unable to modify the content of TinyMCE textarea
