@@ -52,7 +52,7 @@ describe('UserSettings: User attempts to change password', () => {
     axios.post = jest.fn()
     axios.post.mockResolvedValueOnce({
       data: {
-        success: 'true'
+        success: true
       }
     })
 
@@ -127,5 +127,29 @@ describe('UserSettings: User attempts to delete account', () => {
     await userEvent.click(deleteAccountBtn)
 
     expect(window.alert).toHaveBeenCalled()
+  })
+
+  test('User successfully deletes account', async () => {
+    const mockToken = 'mock-auth-token'
+
+    localStorage.setItem('token', mockToken)
+
+    axios.delete = jest.fn()
+    axios.delete.mockResolvedValueOnce({
+      data: {
+        success: true
+      }
+    })
+
+    window.alert = jest.fn()
+
+    render(<UserSettings />)
+    const deleteAccount = screen.getByTestId('test-delete-account')
+    await userEvent.click(deleteAccount)
+
+    const deleteAccountBtn = screen.getByTestId('test-delete-account-button')
+    await userEvent.click(deleteAccountBtn)
+
+    expect(window.location).toBe('/logout')
   })
 })
