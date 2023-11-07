@@ -27,6 +27,27 @@ def add_post(title: str, content: str, uid: str) -> bool:
     return False
 
 
+def change_password(old_pwd: str, new_pwd: str, uid: str) -> bool:
+    if old_pwd and new_pwd:
+        try:
+            user = User.query.get(uid)
+
+            if not user.pwd == new_pwd:
+                return False
+
+            user.pwd = new_pwd
+            db.session.add(user)
+            db.session.commit()
+
+            return True
+
+        except Exception as err:
+            print(err)
+            raise
+
+    return False
+
+
 def delete_post(post_id: str) -> bool:
     if post_id:
         try:
