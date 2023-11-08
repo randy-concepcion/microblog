@@ -28,11 +28,11 @@ def add_post(title: str, content: str, uid: str) -> bool:
 
 
 def change_password(old_pwd: str, new_pwd: str, uid: str) -> bool:
-    if old_pwd and new_pwd:
+    if old_pwd and new_pwd and uid:
         try:
-            user = User.query.get(uid)
+            user = db.session.get(User, uid)
 
-            if not user.pwd == new_pwd:
+            if not user.pwd == old_pwd:
                 return False
 
             user.pwd = new_pwd
