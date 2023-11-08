@@ -17,7 +17,7 @@ def test_client():
             yield testing_client
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="function")
 def init_database(test_client):
     # Recreate db session from scratch when instantiated
     db.session.close()

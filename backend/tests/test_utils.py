@@ -2,6 +2,7 @@ import pytest
 from backend.utils import (
     add_post,
     add_user,
+    change_password,
     delete_post,
     get_posts,
     get_user_posts,
@@ -54,6 +55,34 @@ class TestAddPost:
 
         with pytest.raises(SQLAlchemyError):
             add_post("some title", "some content", 1)
+
+
+class TestChangePassword:
+    # @pytest.fixture(autouse=True)
+    @pytest.fixture(autouse=True)
+    def __init_fixtures(self, mocker, init_database):
+        self.mocker = mocker
+        self.mocker.resetall()
+        self.init_db = init_database
+
+    def test_successfully_changes_password(self):
+        result = change_password("12345", "new_password", "1")
+        assert result is True
+
+    def test_empty_params_returns_false(self):
+        result = change_password(None, None, None)
+        assert result is False
+
+    def test_incorrect_password_returns_false(self):
+        result = change_password("test", "wrong_pw", "1")
+        assert result is False
+
+    def test_db_session_add_raises_exception(self):
+        mock_db = self.mocker.patch("backend.db.session.add")
+        mock_db.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
+
+        with pytest.raises(SQLAlchemyError):
+            change_password("12345", "new_password", "1")
 
 
 class TestDeletePost:
