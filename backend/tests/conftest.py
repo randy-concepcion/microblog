@@ -32,7 +32,12 @@ def init_database(test_client):
         uid="1", title="Bob's Big Post", content="Bob's law blog post is big"
     )
 
+    second_user = User(
+        username="jamiroquai", email="jamiroquai@virtualinsanity.com", pwd="54321"
+    )
+
     db.session.add(default_user)
     db.session.add(default_post)
+    db.session.add(second_user)
 
     db.session.commit()

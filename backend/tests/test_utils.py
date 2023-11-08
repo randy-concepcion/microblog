@@ -3,6 +3,7 @@ from backend.utils import (
     add_post,
     add_user,
     change_password,
+    delete_account,
     delete_post,
     get_posts,
     get_user_posts,
@@ -58,7 +59,6 @@ class TestAddPost:
 
 
 class TestChangePassword:
-    # @pytest.fixture(autouse=True)
     @pytest.fixture(autouse=True)
     def __init_fixtures(self, mocker, init_database):
         self.mocker = mocker
@@ -83,6 +83,45 @@ class TestChangePassword:
 
         with pytest.raises(SQLAlchemyError):
             change_password("12345", "new_password", "1")
+
+
+class TestDeleteAccount:
+    @pytest.fixture(autouse=True)
+    def __init_fixtures(self, mocker, init_database):
+        self.mocker = mocker
+        self.mocker.resetall()
+        self.init_db = init_database
+
+    def test_successfully_deletes_post_and_removes_user(self):
+        uid = "1"
+
+        mock_delete_post = self.mocker.patch("backend.utils.delete_post")
+        mock_remove_user = self.mocker.patch("backend.utils.remove_user")
+
+        result = delete_account(uid)
+
+        mock_delete_post.assert_called_once()
+        mock_remove_user.assert_called_once_with(int(uid))
+        assert result is True
+
+    def test_successfully_removes_user_only(self):
+        uid = "2"
+
+        mock_delete_post = self.mocker.patch("backend.utils.delete_post")
+        mock_remove_user = self.mocker.patch("backend.utils.remove_user")
+
+        result = delete_account(uid)
+
+        mock_delete_post.assert_not_called()
+        mock_remove_user.assert_called_once_with(int(uid))
+        assert result is True
+
+    def test_remove_user_raises_exception(self):
+        mock_remove_user = self.mocker.patch("backend.utils.remove_user")
+        mock_remove_user.side_effect = SQLAlchemyError("Forced testing SQLAlchemyError")
+
+        with pytest.raises(SQLAlchemyError):
+            delete_account("1")
 
 
 class TestDeletePost:
