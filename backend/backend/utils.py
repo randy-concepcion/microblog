@@ -48,6 +48,24 @@ def change_password(old_pwd: str, new_pwd: str, uid: str) -> bool:
     return False
 
 
+def delete_account(uid: str) -> bool:
+    try:
+        user = db.session.get(User, uid)
+        posts = Post.query.all()
+
+        for post in posts:
+            if post.user.username == user.username:
+                delete_post(post.id)
+
+        remove_user(user.id)
+
+        return True
+
+    except Exception as err:
+        print(err)
+        raise
+
+
 def delete_post(post_id: str) -> bool:
     if post_id:
         try:
