@@ -32,7 +32,7 @@ def change_password(old_pwd: str, new_pwd: str, uid: str) -> bool:
         try:
             user = db.session.get(User, uid)
 
-            if not user.pwd == old_pwd:
+            if user.pwd != old_pwd:
                 return False
 
             user.pwd = new_pwd
