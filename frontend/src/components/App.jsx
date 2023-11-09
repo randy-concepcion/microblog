@@ -6,6 +6,7 @@ import MainPage from './MainPage'
 import Navbar from './Navbar'
 import React from 'react'
 import Register from './Register'
+import UserSettings from './UserSettings'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { checkToken } from '../utils/login'
 
@@ -23,6 +24,7 @@ function App () {
                         <Route path="/login" exact element={<Login />} />
                         <Route path="/register" exact element={<Register />} />
                         <Route path="/logout" exact element={<Logout />} />
+                        <Route path="/settings" exact element={<UserSettings />} />
                 </Routes>
             </Router>
         </React.Fragment>
