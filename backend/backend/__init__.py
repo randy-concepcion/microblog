@@ -34,6 +34,7 @@ def create_app():
 def register_blueprints(app):
     from backend.add_post import add_post_blueprint
     from backend.change_password import change_password_blueprint
+    from backend.delete_account import delete_account_blueprint
     from backend.delete_post import delete_post_blueprint
     from backend.get_current_user import get_current_user_blueprint
     from backend.get_posts import get_posts_blueprint
@@ -50,6 +51,7 @@ def register_blueprints(app):
     # and implement it later
     csrf.exempt(add_post_blueprint)
     csrf.exempt(change_password_blueprint)
+    csrf.exempt(delete_account_blueprint)
     csrf.exempt(delete_post_blueprint)
     csrf.exempt(get_current_user_blueprint)
     csrf.exempt(get_posts_blueprint)
@@ -63,6 +65,7 @@ def register_blueprints(app):
 
     app.register_blueprint(add_post_blueprint)
     app.register_blueprint(change_password_blueprint)
+    app.register_blueprint(delete_account_blueprint)
     app.register_blueprint(delete_post_blueprint)
     app.register_blueprint(get_current_user_blueprint)
     app.register_blueprint(get_posts_blueprint)
