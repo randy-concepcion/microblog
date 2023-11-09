@@ -18,7 +18,7 @@ class TestDeleteAccountEndpoint:
             "backend.delete_account.routes.utils_delete_account"
         )
 
-        response = self.test_client.post(
+        response = self.test_client.delete(
             self.endpoint,
             content_type="application/json",
         )
@@ -33,7 +33,7 @@ class TestDeleteAccountEndpoint:
         )
         mock_delete_account.side_effect = Exception
 
-        response = self.test_client.post(
+        response = self.test_client.delete(
             self.endpoint,
             content_type="application/json",
             headers=self.header,
@@ -45,7 +45,7 @@ class TestDeleteAccountEndpoint:
     def test_delete_account_returns_success(self):
         self.mocker.patch("backend.delete_account.routes.utils_delete_account")
 
-        response = self.test_client.post(
+        response = self.test_client.delete(
             self.endpoint,
             content_type="application/json",
             headers=self.header,
