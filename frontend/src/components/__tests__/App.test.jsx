@@ -86,7 +86,8 @@ describe('User interacts with Login component', () => {
 
     const allLinks = await screen.getAllByRole('link')
     expect(allLinks[0]).toHaveAttribute('href', '/')
-    expect(allLinks[1]).toHaveAttribute('href', '/logout')
+    expect(allLinks[1]).toHaveAttribute('href', '/settings')
+    expect(allLinks[2]).toHaveAttribute('href', '/logout')
 
     // The Main page component is rendered
     expect(await screen.getByTestId('test-main-posts')).toBeInTheDocument()
