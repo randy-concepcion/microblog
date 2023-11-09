@@ -9,7 +9,7 @@ from flask_jwt_extended import (
 )
 
 
-@delete_account_blueprint.route("/api/delete_account", methods=["POST"])
+@delete_account_blueprint.route("/api/delete_account", methods=["DELETE"])
 @jwt_required()
 def delete_account():
     try:
