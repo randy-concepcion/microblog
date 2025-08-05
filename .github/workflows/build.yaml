@@ -41,7 +41,7 @@ jobs:
           CSRF_SECRET_KEY: ${{ secrets.CSRF_SECRET_KEY }}
 
       - name: Upload pytest test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pytest-coverage-report
           path: backend/coverage/coverage.xml
